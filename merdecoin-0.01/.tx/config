@@ -1,0 +1,7 @@
+[main]
+host = https://www.transifex.com
+
+[merdecoin.qt-translation-019x]
+file_filter = src/qt/locale/merdecoin_<lang>.ts
+source_file = src/qt/locale/merdecoin_en.ts
+source_lang = en
