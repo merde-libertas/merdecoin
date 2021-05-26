@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018 The Bitcoin Core developers
+// Copyright (c) 2012-2018 The Merdecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -44,8 +44,8 @@ const std::string CLIENT_NAME("Satoshi");
 //! git will put "#define GIT_ARCHIVE 1" on the next line inside archives. 
 #define GIT_ARCHIVE 1
 #ifdef GIT_ARCHIVE
-#define GIT_COMMIT_ID "8b67698420e23db20cfbb9228ca01a68c8ddc10c"
-#define GIT_COMMIT_DATE "Thu, 23 Jan 2020 10:07:40 +0800"
+#define GIT_COMMIT_ID "2f9f9b37b595c409bbd7282aa41b28478c79b574"
+#define GIT_COMMIT_DATE "Thu, 7 Jan 2021 19:57:57 +0100"
 #endif
 
 #define BUILD_DESC_WITH_SUFFIX(maj, min, rev, build, suffix) \

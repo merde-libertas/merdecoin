@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019 The Bitcoin Core developers
+# Copyright (c) 2019 The Merdecoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test RPC misc output."""
@@ -45,6 +45,14 @@ class RpcMiscTest(BitcoinTestFramework):
             assert_raises_rpc_error(-8, 'mallocinfo is only available when compiled with glibc 2.10+', node.getmemoryinfo, mode="mallocinfo")
 
         assert_raises_rpc_error(-8, "unknown mode foobar", node.getmemoryinfo, mode="foobar")
+
+        self.log.info("test logging")
+        assert_equal(node.logging()['qt'], True)
+        node.logging(exclude=['qt'])
+        assert_equal(node.logging()['qt'], False)
+        node.logging(include=['qt'])
+        assert_equal(node.logging()['qt'], True)
+
 
 if __name__ == '__main__':
     RpcMiscTest().main()

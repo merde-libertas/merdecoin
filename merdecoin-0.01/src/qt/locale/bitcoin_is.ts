@@ -62,12 +62,8 @@
         <translation>Færslugildi sem þiggja til sín</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Þetta eru Bitcoin færslugildin sem senda greiðslur. Skoðið ævinlega vel upphæðina og færslugildin sem þiggja greiðslur áður en mynt er send.</translation>
-    </message>
-    <message>
-        <source>These are your Bitcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>Þetta eru Bitcoin færslugildin sem þiggja greiðslur. Mælt er með að nota aldrei sama færslugildið til að þiggja fleiri en eina greiðslu.</translation>
+        <source>These are your Merdecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Þetta eru Merdecoin færslugildin sem senda greiðslur. Skoðið ævinlega vel upphæðina og færslugildin sem þiggja greiðslur áður en mynt er send.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -132,10 +128,6 @@
         <translation>Endurtaktu nýja lykilsetningu</translation>
     </message>
     <message>
-        <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;ten or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
-        <translation>Skráðu nýju lykilsetninguna í veskið. &lt;br/&gt;Vinsamlegast notaðu lykilsetningu með &lt;b&gt;tíu eða fleiri slembibókstöfum&lt;/b&gt;, eða &lt;b&gt;átta eða fleiri orðum&lt;/b&gt;.</translation>
-    </message>
-    <message>
         <source>Encrypt wallet</source>
         <translation>Dulkóða veski</translation>
     </message>
@@ -160,10 +152,6 @@
         <translation>Breyta lykilsetningu</translation>
     </message>
     <message>
-        <source>Enter the old passphrase and new passphrase to the wallet.</source>
-        <translation>Skráðu gömlu lykilsetninguna og þá nýju í veskið.</translation>
-    </message>
-    <message>
         <source>Confirm wallet encryption</source>
         <translation>Staðfesta dulkóðun veskis</translation>
     </message>
@@ -178,6 +166,10 @@
     <message>
         <source>Wallet encrypted</source>
         <translation>Veski dulkóðað</translation>
+    </message>
+    <message>
+        <source>Wallet to be encrypted</source>
+        <translation>Veski sem á að dulkóða</translation>
     </message>
     <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
@@ -322,8 +314,8 @@
         <translation>Endurraða blokkum á drifi...</translation>
     </message>
     <message>
-        <source>Send coins to a Bitcoin address</source>
-        <translation>Senda mynt í Bitcoin færslugildi</translation>
+        <source>Send coins to a Merdecoin address</source>
+        <translation>Senda mynt í Merdecoin færslugildi</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -346,10 +338,6 @@
         <translation>&amp;Yfirfara skilaboð...</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>Bitcoin</translation>
-    </message>
-    <message>
         <source>&amp;Send</source>
         <translation>&amp;Senda</translation>
     </message>
@@ -370,12 +358,12 @@
         <translation>Dulkóða einkalyklana sem tilheyra veskinu þínu</translation>
     </message>
     <message>
-        <source>Sign messages with your Bitcoin addresses to prove you own them</source>
-        <translation>Kvitta undir skilaboð með Bitcoin færslugildunum þínum til að sanna að þú eigir þau</translation>
+        <source>Sign messages with your Merdecoin addresses to prove you own them</source>
+        <translation>Kvitta undir skilaboð með Merdecoin færslugildunum þínum til að sanna að þú eigir þau</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Bitcoin addresses</source>
-        <translation>Yfirfara skilaboð til að tryggja að kvittað hafi verið fyrir þau með tilteknum Bitcoin færslugildum</translation>
+        <source>Verify messages to ensure they were signed with specified Merdecoin addresses</source>
+        <translation>Yfirfara skilaboð til að tryggja að kvittað hafi verið fyrir þau með tilteknum Merdecoin færslugildum</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -408,6 +396,10 @@
     <message>
         <source>Open a bitcoin: URI or payment request</source>
         <translation>Opna bitcoin: URI eða greiðslubeiðni</translation>
+    </message>
+    <message>
+        <source>&amp;Command-line options</source>
+        <translation>&amp;Valkostir skipanalínu</translation>
     </message>
     <message>
         <source>Indexing blocks on disk...</source>
@@ -446,8 +438,8 @@
         <translation>Uppfært</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Bitcoin command-line options</source>
-        <translation>Sýna %1 hjálparskilaboðin til að fá lista yfir valkosti Bitcoin aðgerðir í skipanalínu</translation>
+        <source>Show the %1 help message to get a list with possible Merdecoin command-line options</source>
+        <translation>Sýna %1 hjálparskilaboðin til að fá lista yfir valkosti Merdecoin aðgerðir í skipanalínu</translation>
     </message>
     <message>
         <source>%1 client</source>
@@ -516,8 +508,8 @@
         <translation>Veskið er &lt;b&gt;dulkóðað&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</translation>
     </message>
     <message>
-        <source>A fatal error occurred. Bitcoin can no longer continue safely and will quit.</source>
-        <translation>Alvarleg villa átti sér stað. Bitcoin getur ekki haldið áfram með öruggum hætti og stoppar hér.</translation>
+        <source>A fatal error occurred. Merdecoin can no longer continue safely and will quit.</source>
+        <translation>Alvarleg villa átti sér stað. Merdecoin getur ekki haldið áfram með öruggum hætti og stoppar hér.</translation>
     </message>
 </context>
 <context>
@@ -596,6 +588,12 @@
     </message>
     </context>
 <context>
+    <name>CreateWalletActivity</name>
+    </context>
+<context>
+    <name>CreateWalletDialog</name>
+    </context>
+<context>
     <name>EditAddressDialog</name>
     <message>
         <source>Edit Address</source>
@@ -630,8 +628,8 @@
         <translation>Breyta sendingarfærslugildi</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Bitcoin address.</source>
-        <translation>Færslugildið sem slegið var inn "%1" er ekki leyfilegt Bitcoin færslugildi.</translation>
+        <source>The entered address "%1" is not a valid Merdecoin address.</source>
+        <translation>Færslugildið sem slegið var inn "%1" er ekki leyfilegt Merdecoin færslugildi.</translation>
     </message>
     </context>
 <context>
@@ -664,6 +662,9 @@
     </context>
 <context>
     <name>OpenURIDialog</name>
+    </context>
+<context>
+    <name>OpenWalletActivity</name>
     </context>
 <context>
     <name>OptionsDialog</name>
@@ -725,10 +726,11 @@
     </message>
     </context>
 <context>
-    <name>QObject::QObject</name>
-    </context>
-<context>
     <name>QRImageWidget</name>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>URI varð of langt, reyndu að minnka texta í merki / skilaboðum.</translation>
+    </message>
     </context>
 <context>
     <name>RPCConsole</name>
@@ -786,11 +788,7 @@
         <source>Wallet</source>
         <translation>Veski</translation>
     </message>
-    <message>
-        <source>Resulting URI too long, try to reduce the text for label / message.</source>
-        <translation>URI varð of langt, reyndu að minnka texta í merki / skilaboðum.</translation>
-    </message>
-    </context>
+</context>
 <context>
     <name>RecentRequestsTableModel</name>
     <message>
@@ -856,9 +854,6 @@
     </context>
 <context>
     <name>SignVerifyMessageDialog</name>
-    </context>
-<context>
-    <name>SplashScreen</name>
     </context>
 <context>
     <name>TrafficGraphWidget</name>
@@ -956,17 +951,5 @@
         <source>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</source>
         <translation>Viðvörun: Netið er ekki í fullu samræmi! Einhver námuvinnsla virðist í ólagi.</translation>
     </message>
-    <message>
-        <source>Information</source>
-        <translation>Upplýsingar</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation>Viðvörun</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>Villa</translation>
-    </message>
-</context>
+    </context>
 </TS>

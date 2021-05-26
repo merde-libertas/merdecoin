@@ -66,12 +66,12 @@
         <translation>受取用アドレス</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>これらは、あなたが知っている支払い送り先の Bitcoin アドレスです。コインを送る前に、必ず金額と送金先アドレスを確認してください。</translation>
+        <source>These are your Merdecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>これらは、あなたが知っている支払い送り先の Merdecoin アドレスです。コインを送る前に、必ず金額と送金先アドレスを確認してください。</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>これらは支払いを受け取るための、あなたの Bitcoin アドレスです。トランザクションごとに新しい受け取り用アドレスを作成することが推奨されます。</translation>
+        <source>These are your Merdecoin addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.</source>
+        <translation>これらは支払いを受け取るための、あなたの Merdecoin アドレスです。新しいアドレスを作成するには受取タブ内の「新しい受取用アドレスを作成」ボタンを使用します。</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -136,12 +136,8 @@
         <translation>新しいパスフレーズをもう一度</translation>
     </message>
     <message>
-        <source>Show password</source>
-        <translation>パスワードを表示</translation>
-    </message>
-    <message>
-        <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;ten or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
-        <translation>ウォレットの新しいパスフレーズを入力してください。&lt;br/&gt;&lt;b&gt;10文字以上のランダムな文字&lt;/b&gt;で構成されたものか、&lt;b&gt;8単語以上の単語&lt;/b&gt;で構成されたパスフレーズを使用してください。</translation>
+        <source>Show passphrase</source>
+        <translation>パスフレーズを表示</translation>
     </message>
     <message>
         <source>Encrypt wallet</source>
@@ -168,16 +164,12 @@
         <translation>パスフレーズの変更</translation>
     </message>
     <message>
-        <source>Enter the old passphrase and new passphrase to the wallet.</source>
-        <translation>ウォレットの古いパスフレーズおよび新しいパスフレーズを入力してください。</translation>
-    </message>
-    <message>
         <source>Confirm wallet encryption</source>
         <translation>ウォレットの暗号化の承諾</translation>
     </message>
     <message>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
-        <translation>警告: もしもあなたのウォレットを暗号化してパスフレーズを忘れてしまったら、&lt;b&gt;あなたの Bitcoin はすべて失われます&lt;/b&gt;！</translation>
+        <translation>警告: もしもあなたのウォレットを暗号化してパスフレーズを忘れてしまったら、&lt;b&gt;あなたの Merdecoin はすべて失われます&lt;/b&gt;！</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -188,8 +180,29 @@
         <translation>ウォレットの暗号化の完了</translation>
     </message>
     <message>
-        <source>Your wallet is now encrypted. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
-        <translation>ウォレットの暗号化処理が完了しました。ウォレットを暗号化しても、コンピュータに感染したマルウェアなどによる Bitcoin の盗難を完全に防ぐことはできないことにご注意ください。</translation>
+        <source>Enter the new passphrase for the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;ten or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
+        <translation>新しいウォレットのパスフレーズを入力してください。
+パスフレーズは、ランダムな10文字以上の文字か、８語以上の単語を使用してください。</translation>
+    </message>
+    <message>
+        <source>Enter the old passphrase and new passphrase for the wallet.</source>
+        <translation>ウォレット用の旧パスフレーズと新パスフレーズを入力してください。</translation>
+    </message>
+    <message>
+        <source>Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
+        <translation>ウォレットを暗号化しても、コンピュータに感染したマルウェアなどによる Merdecoin の盗難を完全に防ぐことはできないことにご注意ください。</translation>
+    </message>
+    <message>
+        <source>Wallet to be encrypted</source>
+        <translation>暗号化するウォレット</translation>
+    </message>
+    <message>
+        <source>Your wallet is about to be encrypted. </source>
+        <translation>ウォレットは暗号化されようとしています。</translation>
+    </message>
+    <message>
+        <source>Your wallet is now encrypted. </source>
+        <translation>ウォレットは暗号化されました。</translation>
     </message>
     <message>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
@@ -314,6 +327,14 @@
         <translation>URI を開く(&amp;U)...</translation>
     </message>
     <message>
+        <source>Create Wallet...</source>
+        <translation>ウォレットを作成...</translation>
+    </message>
+    <message>
+        <source>Create a new wallet</source>
+        <translation>新しいウォレットを作成</translation>
+    </message>
+    <message>
         <source>Wallet:</source>
         <translation>ウォレット:</translation>
     </message>
@@ -342,8 +363,8 @@
         <translation>プロキシは&lt;b&gt;有効&lt;/b&gt;: %1</translation>
     </message>
     <message>
-        <source>Send coins to a Bitcoin address</source>
-        <translation>Bitcoin アドレスにコインを送る</translation>
+        <source>Send coins to a Merdecoin address</source>
+        <translation>Merdecoin アドレスにコインを送る</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -366,10 +387,6 @@
         <translation>メッセージの検証(&amp;V)...</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>Bitcoin</translation>
-    </message>
-    <message>
         <source>&amp;Send</source>
         <translation>送金(&amp;S)</translation>
     </message>
@@ -390,12 +407,12 @@
         <translation>ウォレットの秘密鍵を暗号化する</translation>
     </message>
     <message>
-        <source>Sign messages with your Bitcoin addresses to prove you own them</source>
-        <translation>Bitcoin アドレスでメッセージに署名して、アドレスを所有していることを証明する</translation>
+        <source>Sign messages with your Merdecoin addresses to prove you own them</source>
+        <translation>Merdecoin アドレスでメッセージに署名して、アドレスを所有していることを証明する</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Bitcoin addresses</source>
-        <translation>メッセージを検証して、指定された Bitcoin アドレスで署名されたことを確認する</translation>
+        <source>Verify messages to ensure they were signed with specified Merdecoin addresses</source>
+        <translation>メッセージを検証して、指定された Merdecoin アドレスで署名されたことを確認する</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -434,8 +451,8 @@
         <translation>コマンドラインオプション(&amp;C)</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Bitcoin network</source>
-        <translation><numerusform>Bitcoin ネットワークへのアクティブな接続は %n 個</numerusform></translation>
+        <source>%n active connection(s) to Merdecoin network</source>
+        <translation><numerusform>Merdecoin ネットワークへのアクティブな接続は %n 個</numerusform></translation>
     </message>
     <message>
         <source>Indexing blocks on disk...</source>
@@ -502,7 +519,7 @@
         <translation>ウォレットを閉じる</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Bitcoin command-line options</source>
+        <source>Show the %1 help message to get a list with possible Merdecoin command-line options</source>
         <translation>%1 のヘルプ メッセージを表示して、使用可能な XPChain のコマンドライン オプションの一覧を見る。</translation>
     </message>
     <message>
@@ -510,12 +527,8 @@
         <translation>デフォルトウォレット</translation>
     </message>
     <message>
-        <source>Opening Wallet &lt;b&gt;%1&lt;/b&gt;...</source>
-        <translation>ウォレット &lt;b&gt;%1&lt;/b&gt;を開いています...</translation>
-    </message>
-    <message>
-        <source>Open Wallet Failed</source>
-        <translation>ウォレットを開くことに失敗しました</translation>
+        <source>No wallets available</source>
+        <translation>ウォレットは利用できません</translation>
     </message>
     <message>
         <source>&amp;Window</source>
@@ -528,10 +541,6 @@
     <message>
         <source>Zoom</source>
         <translation>拡大／縮小</translation>
-    </message>
-    <message>
-        <source>Restore</source>
-        <translation>元に戻す</translation>
     </message>
     <message>
         <source>Main Window</source>
@@ -548,6 +557,14 @@
     <message>
         <source>Catching up...</source>
         <translation>遅延取戻し中...</translation>
+    </message>
+    <message>
+        <source>Error: %1</source>
+        <translation>エラー: %1</translation>
+    </message>
+    <message>
+        <source>Warning: %1</source>
+        <translation>警告: %1</translation>
     </message>
     <message>
         <source>Date: %1
@@ -614,8 +631,8 @@
         <translation>ウォレットは&lt;b&gt;暗号化済み&lt;/b&gt;・&lt;b&gt;ロック状態&lt;/b&gt;</translation>
     </message>
     <message>
-        <source>A fatal error occurred. Bitcoin can no longer continue safely and will quit.</source>
-        <translation>致命的なエラーが発生しました。Bitcoin を安全に動作し続けることができないため終了します。</translation>
+        <source>A fatal error occurred. Merdecoin can no longer continue safely and will quit.</source>
+        <translation>致命的なエラーが発生しました。Merdecoin を安全に動作し続けることができないため終了します。</translation>
     </message>
 </context>
 <context>
@@ -770,6 +787,60 @@
     </message>
 </context>
 <context>
+    <name>CreateWalletActivity</name>
+    <message>
+        <source>Creating Wallet &lt;b&gt;%1&lt;/b&gt;...</source>
+        <translation>ウォレット &lt;b&gt;%1&lt;/b&gt;を作成しています...</translation>
+    </message>
+    <message>
+        <source>Create wallet failed</source>
+        <translation>ウォレットの作成に失敗しました</translation>
+    </message>
+    <message>
+        <source>Create wallet warning</source>
+        <translation>ウォレットを作成 - 警告</translation>
+    </message>
+</context>
+<context>
+    <name>CreateWalletDialog</name>
+    <message>
+        <source>Create Wallet</source>
+        <translation>ウォレットを作成する</translation>
+    </message>
+    <message>
+        <source>Wallet Name</source>
+        <translation>ウォレット名</translation>
+    </message>
+    <message>
+        <source>Encrypt the wallet. The wallet will be encrypted with a passphrase of your choice.</source>
+        <translation>ウォレットを暗号化。ウォレットは任意のパスフレーズによって暗号化されます。</translation>
+    </message>
+    <message>
+        <source>Encrypt Wallet</source>
+        <translation>ウォレットを暗号化する</translation>
+    </message>
+    <message>
+        <source>Disable private keys for this wallet. Wallets with private keys disabled will have no private keys and cannot have an HD seed or imported private keys. This is ideal for watch-only wallets.</source>
+        <translation>このウォレットの秘密鍵を無効にします。秘密鍵が無効になっているウォレットには秘密鍵はなく、HDシードまたはインポートされた秘密鍵を持つこともできません。これはウォッチ限定のウォレットに最適です。</translation>
+    </message>
+    <message>
+        <source>Disable Private Keys</source>
+        <translation>秘密鍵を無効化</translation>
+    </message>
+    <message>
+        <source>Make a blank wallet. Blank wallets do not initially have private keys or scripts. Private keys and addresses can be imported, or an HD seed can be set, at a later time.</source>
+        <translation>空ウォレットを作成。空ウォレットには、最初は秘密鍵やスクリプトがありません。後から秘密鍵やアドレスをインポート、またはHDシードを設定できます。</translation>
+    </message>
+    <message>
+        <source>Make Blank Wallet</source>
+        <translation>空ウォレットを作成</translation>
+    </message>
+    <message>
+        <source>Create</source>
+        <translation>作成</translation>
+    </message>
+</context>
+<context>
     <name>EditAddressDialog</name>
     <message>
         <source>Edit Address</source>
@@ -804,8 +875,8 @@
         <translation>送金先アドレスを編集</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Bitcoin address.</source>
-        <translation>入力されたアドレス "%1" は無効な Bitcoin アドレスです。</translation>
+        <source>The entered address "%1" is not a valid Merdecoin address.</source>
+        <translation>入力されたアドレス "%1" は無効な Merdecoin アドレスです。</translation>
     </message>
     <message>
         <source>Address "%1" already exists as a receiving address with label "%2" and so cannot be added as a sending address.</source>
@@ -885,6 +956,10 @@
         <translation>OKをクリックすると、%1 は %4 がリリースされた%3年最初の取引からの完全な %4 ブロックチェーン（%2GB）のダウンロードおよび処理を開始します。</translation>
     </message>
     <message>
+        <source>Reverting this setting requires re-downloading the entire blockchain. It is faster to download the full chain first and prune it later. Disables some advanced features.</source>
+        <translation>この設定を元に戻すには、ブロックチェーン全体を再ダウンロードする必要があります。先にチェーン全体をダウンロードしてから、剪定する方が高速です。一部の高度な機能を無効にします。</translation>
+    </message>
+    <message>
         <source>This initial synchronisation is very demanding, and may expose hardware problems with your computer that had previously gone unnoticed. Each time you run %1, it will continue downloading where it left off.</source>
         <translation>この初回同期には多大なリソースを消費し、あなたのコンピュータでこれまで見つからなかったハードウェア上の問題が発生する場合があります。%1 を実行する度に、中断された時点からダウンロードを再開します。</translation>
     </message>
@@ -905,6 +980,10 @@
         <translation>Bitcoin</translation>
     </message>
     <message>
+        <source>Discard blocks after verification, except most recent %1 GB (prune)</source>
+        <translation>最新の%1 GBを除いて、検証後にブロックを破棄 (剪定する)</translation>
+    </message>
+    <message>
         <source>At least %1 GB of data will be stored in this directory, and it will grow over time.</source>
         <translation>最低でも%1 GBのデータをこのディレクトリに保存する必要があります。またこのデータは時間とともに増加していきます。</translation>
     </message>
@@ -913,8 +992,8 @@
         <translation>約%1 GBのデータがこのディレクトリに保存されます。</translation>
     </message>
     <message>
-        <source>%1 will download and store a copy of the Bitcoin block chain.</source>
-        <translation>%1 は Bitcoin ブロックチェーンのコピーをダウンロードし保存します。</translation>
+        <source>%1 will download and store a copy of the Merdecoin block chain.</source>
+        <translation>%1 は Merdecoin ブロックチェーンのコピーをダウンロードし保存します。</translation>
     </message>
     <message>
         <source>The wallet will also be stored in this directory.</source>
@@ -936,6 +1015,10 @@
         <source>(of %n GB needed)</source>
         <translation><numerusform>(%n GB必要)</numerusform></translation>
     </message>
+    <message numerus="yes">
+        <source>(%n GB needed for full chain)</source>
+        <translation><numerusform>(完全なチェーンには%n GB必要です)</numerusform></translation>
+    </message>
 </context>
 <context>
     <name>ModalOverlay</name>
@@ -945,11 +1028,11 @@
     </message>
     <message>
         <source>Recent transactions may not yet be visible, and therefore your wallet's balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the bitcoin network, as detailed below.</source>
-        <translation>最近の取引がまだ表示されていない可能性があります。そのため、ウォレットの残高が正しく表示されていないかもしれません。この情報は、ウォレットが Bitcoin ネットワークへの同期が完了すると正確なものとなります。詳細は下記を参照してください。</translation>
+        <translation>最近の取引がまだ表示されていない可能性があります。そのため、ウォレットの残高が正しく表示されていないかもしれません。この情報は、ウォレットが Merdecoin ネットワークへの同期が完了すると正確なものとなります。詳細は下記を参照してください。</translation>
     </message>
     <message>
         <source>Attempting to spend bitcoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
-        <translation>まだ表示されていない取引が関係する Bitcoin を使用しようとすると、ネットワークから認証を受けられません。</translation>
+        <translation>まだ表示されていない取引が関係する Merdecoin を使用しようとすると、ネットワークから認証を受けられません。</translation>
     </message>
     <message>
         <source>Number of blocks left</source>
@@ -983,7 +1066,11 @@
         <source>Hide</source>
         <translation>隠す</translation>
     </message>
-    </context>
+    <message>
+        <source>Unknown. Syncing Headers (%1, %2%)...</source>
+        <translation>不明。ヘッダ (%1, %2%) の同期中...</translation>
+    </message>
+</context>
 <context>
     <name>OpenURIDialog</name>
     <message>
@@ -1005,6 +1092,25 @@
     <message>
         <source>Select payment request file to open</source>
         <translation>支払いリクエストファイルを選択</translation>
+    </message>
+</context>
+<context>
+    <name>OpenWalletActivity</name>
+    <message>
+        <source>Open wallet failed</source>
+        <translation>ウォレットを開くことに失敗しました</translation>
+    </message>
+    <message>
+        <source>Open wallet warning</source>
+        <translation>ウォレットを開く - 警告</translation>
+    </message>
+    <message>
+        <source>default wallet</source>
+        <translation>デフォルトウォレット</translation>
+    </message>
+    <message>
+        <source>Opening Wallet &lt;b&gt;%1&lt;/b&gt;...</source>
+        <translation>ウォレット &lt;b&gt;%1&lt;/b&gt;を開いています...</translation>
     </message>
 </context>
 <context>
@@ -1126,8 +1232,8 @@
         <translation>未検証のお釣りを使用する(&amp;S)</translation>
     </message>
     <message>
-        <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>自動的にルーター上の Bitcoin クライアントのポートを開放します。あなたのルーターが UPnP に対応していて、それが有効になっている場合のみ動作します。</translation>
+        <source>Automatically open the Merdecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>自動的にルーター上の Merdecoin クライアントのポートを開放します。あなたのルーターが UPnP に対応していて、それが有効になっている場合のみ動作します。</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -1142,8 +1248,8 @@
         <translation>外部からの接続を許可する(&amp;G)</translation>
     </message>
     <message>
-        <source>Connect to the Bitcoin network through a SOCKS5 proxy.</source>
-        <translation>SOCKS5 プロキシ経由で Bitcoin ネットワークに接続する。</translation>
+        <source>Connect to the Merdecoin network through a SOCKS5 proxy.</source>
+        <translation>SOCKS5 プロキシ経由で Merdecoin ネットワークに接続する。</translation>
     </message>
     <message>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
@@ -1178,8 +1284,8 @@
         <translation>Tor</translation>
     </message>
     <message>
-        <source>Connect to the Bitcoin network through a separate SOCKS5 proxy for Tor hidden services.</source>
-        <translation>Tor秘匿サービスを利用するため、専用の SOCKS5 プロキシ経由で Bitcoin ネットワークに接続する。</translation>
+        <source>Connect to the Merdecoin network through a separate SOCKS5 proxy for Tor hidden services.</source>
+        <translation>Tor秘匿サービスを利用するため、専用の SOCKS5 プロキシ経由で Merdecoin ネットワークに接続する。</translation>
     </message>
     <message>
         <source>&amp;Window</source>
@@ -1289,8 +1395,8 @@
         <translation>フォーム</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Bitcoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>表示されている情報は古い可能性があります。ウォレットは接続確立後に Bitcoin ネットワークと自動的に同期しますが、同期処理はまだ完了していません。</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Merdecoin network after a connection is established, but this process has not completed yet.</source>
+        <translation>表示されている情報は古い可能性があります。ウォレットは接続確立後に Merdecoin ネットワークと自動的に同期しますが、同期処理はまだ完了していません。</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -1365,7 +1471,7 @@
     </message>
     <message>
         <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>Bitcoin を起動できません: click-to-pay handler</translation>
+        <translation>Merdecoin を起動できません: click-to-pay handler</translation>
     </message>
     <message>
         <source>URI handling</source>
@@ -1388,12 +1494,20 @@
         <translation>BIP70のサポートが組み込まれていないため、支払いリクエストを処理することができません。</translation>
     </message>
     <message>
+        <source>Due to widespread security flaws in BIP70 it's strongly recommended that any merchant instructions to switch wallets be ignored.</source>
+        <translation>BIP70 に内在する広く知られたセキュリティ上の欠陥がるため、ウォレットを切り替えるというマーチャントからの指示については無視することが強く推奨されます。</translation>
+    </message>
+    <message>
+        <source>If you are receiving this error you should request the merchant provide a BIP21 compatible URI.</source>
+        <translation>このエラーが発生する場合は、販売者にBIP21互換URIの提供を依頼するべきです。</translation>
+    </message>
+    <message>
         <source>Invalid payment address %1</source>
         <translation>支払い先アドレス「 %1 」は無効です</translation>
     </message>
     <message>
-        <source>URI cannot be parsed! This can be caused by an invalid Bitcoin address or malformed URI parameters.</source>
-        <translation>URIを解析できませんでした！ Bitcoin アドレスが無効であるか、URIパラメーターが不正な形式である可能性があります。</translation>
+        <source>URI cannot be parsed! This can be caused by an invalid Merdecoin address or malformed URI parameters.</source>
+        <translation>URIを解析できませんでした！ Merdecoin アドレスが無効であるか、URIパラメーターが不正な形式である可能性があります。</translation>
     </message>
     <message>
         <source>Payment request file handling</source>
@@ -1494,8 +1608,8 @@
         <translation>金額</translation>
     </message>
     <message>
-        <source>Enter a Bitcoin address (e.g. %1)</source>
-        <translation>Bitcoin アドレスを入力してください (例: %1)</translation>
+        <source>Enter a Merdecoin address (e.g. %1)</source>
+        <translation>Merdecoin アドレスを入力してください (例: %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -1570,21 +1684,6 @@
         <translation>%1 GB</translation>
     </message>
     <message>
-        <source>%1 didn't yet exit safely...</source>
-        <translation>%1 はまだ安全に終了していません...</translation>
-    </message>
-    <message>
-        <source>unknown</source>
-        <translation>不明</translation>
-    </message>
-</context>
-<context>
-    <name>QObject::QObject</name>
-    <message>
-        <source>Error parsing command line arguments: %1.</source>
-        <translation>コマンドライン引数の解析時にエラーが発生しました: %1</translation>
-    </message>
-    <message>
         <source>Error: Specified data directory "%1" does not exist.</source>
         <translation>エラー: 指定されたデータ ディレクトリ "%1" は存在しません。</translation>
     </message>
@@ -1596,6 +1695,14 @@
         <source>Error: %1</source>
         <translation>エラー: %1</translation>
     </message>
+    <message>
+        <source>%1 didn't yet exit safely...</source>
+        <translation>%1 はまだ安全に終了していません...</translation>
+    </message>
+    <message>
+        <source>unknown</source>
+        <translation>不明</translation>
+    </message>
 </context>
 <context>
     <name>QRImageWidget</name>
@@ -1606,6 +1713,18 @@
     <message>
         <source>&amp;Copy Image</source>
         <translation>画像をコピー(&amp;C)</translation>
+    </message>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>生成されたURIが長すぎです。ラベルやメッセージのテキストを短くしてください。</translation>
+    </message>
+    <message>
+        <source>Error encoding URI into QR Code.</source>
+        <translation>URIをQRコードへ変換している際にエラーが発生しました。</translation>
+    </message>
+    <message>
+        <source>QR code support not available.</source>
+        <translation>QRコードは利用できません。</translation>
     </message>
     <message>
         <source>Save QR Code</source>
@@ -1950,8 +2069,8 @@
         <translation>メッセージ (&amp;M):</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Bitcoin network.</source>
-        <translation>支払いリクエストに添付するメッセージ（任意）。支払リクエスト開始時に表示されます。注意: メッセージは Bitcoin ネットワーク上へ送信されません。</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Merdecoin network.</source>
+        <translation>支払いリクエストに添付するメッセージ（任意）。支払リクエスト開始時に表示されます。注意: メッセージは Merdecoin ネットワーク上へ送信されません。</translation>
     </message>
     <message>
         <source>An optional label to associate with the new receiving address.</source>
@@ -1964,6 +2083,10 @@
     <message>
         <source>An optional amount to request. Leave this empty or zero to not request a specific amount.</source>
         <translation>リクエストする金額（任意）。特定の金額をリクエストしない場合は、この欄は空白のままかゼロにしてください。</translation>
+    </message>
+    <message>
+        <source>&amp;Create new receiving address</source>
+        <translation>新しい受取用アドレスを作成</translation>
     </message>
     <message>
         <source>Clear all fields of the form.</source>
@@ -1984,10 +2107,6 @@
     <message>
         <source>Requested payments history</source>
         <translation>支払いリクエスト履歴</translation>
-    </message>
-    <message>
-        <source>&amp;Request payment</source>
-        <translation>支払いをリクエスト(&amp;R)</translation>
     </message>
     <message>
         <source>Show the selected request (does the same as double clicking an entry)</source>
@@ -2071,14 +2190,6 @@
     <message>
         <source>Wallet</source>
         <translation>ウォレット</translation>
-    </message>
-    <message>
-        <source>Resulting URI too long, try to reduce the text for label / message.</source>
-        <translation>生成されたURIが長すぎです。ラベルやメッセージのテキストを短くしてください。</translation>
-    </message>
-    <message>
-        <source>Error encoding URI into QR Code.</source>
-        <translation>URIをQRコードへ変換している際にエラーが発生しました。</translation>
     </message>
 </context>
 <context>
@@ -2176,7 +2287,7 @@
     </message>
     <message>
         <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
-        <translation> 代替料金を利用することで、承認されるまでに数時間または数日 (ないし一生承認されない) トランザクションを送信してしまう可能性があります。手動にて手数料を選択するか、完全なブロックチェーンの検証が終わるまで待つことを検討しましょう</translation>
+        <translation>代替料金を利用することで、承認されるまでに数時間または数日 (ないし一生承認されない) トランザクションを送信してしまう可能性があります。手動にて手数料を選択するか、完全なブロックチェーンの検証が終わるまで待つことを検討しましょう</translation>
     </message>
     <message>
         <source>Warning: Fee estimation is currently not possible.</source>
@@ -2299,6 +2410,14 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
         <translation>%1 (%2 ブロック)</translation>
     </message>
     <message>
+        <source> from wallet '%1'</source>
+        <translation>ウォレット '%1' から</translation>
+    </message>
+    <message>
+        <source>%1 to '%2'</source>
+        <translation>%1 から '%2'</translation>
+    </message>
+    <message>
         <source>%1 to %2</source>
         <translation>%1 送金先: %2</translation>
     </message>
@@ -2315,10 +2434,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
         <translation>手数料は後から上乗せ可能です(Replace-By-Fee(手数料の上乗せ: BIP-125)機能が有効)。</translation>
     </message>
     <message>
-        <source>from wallet %1</source>
-        <translation>%1 ウォレット から</translation>
-    </message>
-    <message>
         <source>Please, review your transaction.</source>
         <translation>取引内容の最終確認をしてください。</translation>
     </message>
@@ -2333,6 +2448,10 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     <message>
         <source>Total Amount</source>
         <translation>合計</translation>
+    </message>
+    <message>
+        <source>To review recipient list click "Show Details..."</source>
+        <translation>受信者の一覧を確認するには "詳細を表示..." をクリック</translation>
     </message>
     <message>
         <source>Confirm send coins</source>
@@ -2379,8 +2498,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
         <translation><numerusform>予想される承認開始ブロック: %n ブロック以内</numerusform></translation>
     </message>
     <message>
-        <source>Warning: Invalid Bitcoin address</source>
-        <translation>警告: 無効な Bitcoin アドレス</translation>
+        <source>Warning: Invalid Merdecoin address</source>
+        <translation>警告: 無効な Merdecoin アドレス</translation>
     </message>
     <message>
         <source>Warning: Unknown change address</source>
@@ -2422,8 +2541,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
         <translation>これは通常の支払いです。</translation>
     </message>
     <message>
-        <source>The Bitcoin address to send the payment to</source>
-        <translation>支払い先 Bitcoin アドレス</translation>
+        <source>The Merdecoin address to send the payment to</source>
+        <translation>支払い先 Merdecoin アドレス</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -2443,7 +2562,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     </message>
     <message>
         <source>The fee will be deducted from the amount being sent. The recipient will receive less bitcoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
-        <translation>手数料は送金する金額から差し引かれます。送金先には金額欄で指定した額よりも少ない Bitcoin が送られます。送金先が複数ある場合は、手数料は均等に分けられます。</translation>
+        <translation>手数料は送金する金額から差し引かれます。送金先には金額欄で指定した額よりも少ない Merdecoin が送られます。送金先が複数ある場合は、手数料は均等に分けられます。</translation>
     </message>
     <message>
         <source>S&amp;ubtract fee from amount</source>
@@ -2470,8 +2589,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
         <translation>このアドレスに対するラベルを入力することで、送金したことがあるアドレスの一覧に追加することができます</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Bitcoin network.</source>
-        <translation>bitcoin: URIに添付されていたメッセージです。これは参照用として取引とともに保存されます。注意: メッセージは Bitcoin ネットワーク上へ送信されません。</translation>
+        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Merdecoin network.</source>
+        <translation>bitcoin: URIに添付されていたメッセージです。これは参照用として取引とともに保存されます。注意: メッセージは Merdecoin ネットワーク上へ送信されません。</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -2516,11 +2635,11 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     </message>
     <message>
         <source>You can sign messages/agreements with your addresses to prove you can receive bitcoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>あなたが所有しているアドレスでメッセージや契約書に署名をすることで、それらのアドレスへ送られた Bitcoin を受け取ることができることを証明できます。フィッシング攻撃者があなたを騙して、あなたの身分情報に署名させようとしている可能性があるため、よくわからないものやランダムな文字列に対して署名しないでください。あなたが同意した、よく詳細の記された文言にのみ署名するようにしてください。</translation>
+        <translation>あなたが所有しているアドレスでメッセージや契約書に署名をすることで、それらのアドレスへ送られた Merdecoin を受け取ることができることを証明できます。フィッシング攻撃者があなたを騙して、あなたの身分情報に署名させようとしている可能性があるため、よくわからないものやランダムな文字列に対して署名しないでください。あなたが同意した、よく詳細の記された文言にのみ署名するようにしてください。</translation>
     </message>
     <message>
-        <source>The Bitcoin address to sign the message with</source>
-        <translation>メッセージの署名に使用する Bitcoin アドレス</translation>
+        <source>The Merdecoin address to sign the message with</source>
+        <translation>メッセージの署名に使用する Merdecoin アドレス</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -2551,8 +2670,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
         <translation>この署名をシステムのクリップボードにコピー</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Bitcoin address</source>
-        <translation>メッセージに署名してこの Bitcoin アドレスを所有していることを証明</translation>
+        <source>Sign the message to prove you own this Merdecoin address</source>
+        <translation>メッセージに署名してこの Merdecoin アドレスを所有していることを証明</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -2575,12 +2694,12 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
         <translation>送金先のアドレスと、メッセージ（改行やスペース、タブなども完全に一致させること）および署名を以下に入力し、メッセージを検証します。中間者攻撃により騙されるのを防ぐため、署名対象のメッセージから書かれていること以上の意味を読み取ろうとしないでください。また、これは署名作成者がこのアドレスで受け取れることを証明するだけであり、取引の送信権限を証明するものではありません！</translation>
     </message>
     <message>
-        <source>The Bitcoin address the message was signed with</source>
-        <translation>メッセージの署名に使われた Bitcoin アドレス</translation>
+        <source>The Merdecoin address the message was signed with</source>
+        <translation>メッセージの署名に使われた Merdecoin アドレス</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Bitcoin address</source>
-        <translation>メッセージを検証して指定された Bitcoin アドレスで署名されたことを確認</translation>
+        <source>Verify the message to ensure it was signed with the specified Merdecoin address</source>
+        <translation>メッセージを検証して指定された Merdecoin アドレスで署名されたことを確認</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -2641,13 +2760,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     <message>
         <source>Message verified.</source>
         <translation>メッセージは検証されました。</translation>
-    </message>
-</context>
-<context>
-    <name>SplashScreen</name>
-    <message>
-        <source>[testnet]</source>
-        <translation>[testnet]</translation>
     </message>
 </context>
 <context>
@@ -2790,6 +2902,10 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     <message>
         <source>Output index</source>
         <translation>アウトプット インデックス数</translation>
+    </message>
+    <message>
+        <source> (Certificate was not verified)</source>
+        <translation>(証明書は検証されませんでした)</translation>
     </message>
     <message>
         <source>Merchant</source>
@@ -3115,7 +3231,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
         <translation>ウォレットを閉じる</translation>
     </message>
     <message>
-        <source>Are you sure you wish to close wallet &lt;i&gt;%1&lt;/i&gt;?</source>
+        <source>Are you sure you wish to close the wallet &lt;i&gt;%1&lt;/i&gt;?</source>
         <translation>本当にウォレット&lt;i&gt;%1&lt;/i&gt;を閉じますか？</translation>
     </message>
     <message>
@@ -3247,10 +3363,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
         <translation>HTTPサーバを開始できませんでした。詳細は debug.log を参照してください。</translation>
     </message>
     <message>
-        <source>Bitcoin Core</source>
-        <translation>Bitcoin コア</translation>
-    </message>
-    <message>
         <source>The %s developers</source>
         <translation>%s の開発者</translation>
     </message>
@@ -3375,10 +3487,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
         <translation>ブロックデータベースのオープン時にエラーが発生しました</translation>
     </message>
     <message>
-        <source>Error: Disk space is low!</source>
-        <translation>エラー: ディスク容量が不足しています！</translation>
-    </message>
-    <message>
         <source>Failed to listen on any port. Use -listen=0 if you want this.</source>
         <translation>ポートのリッスンに失敗しました。必要であれば -listen=0 を指定してください。</translation>
     </message>
@@ -3399,6 +3507,10 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
         <translation>初期化時の健全性検査に失敗しました。%s を終了します。</translation>
     </message>
     <message>
+        <source>Invalid P2P permission: '%s'</source>
+        <translation>無効なP2Pアクセス権: '%s'</translation>
+    </message>
+    <message>
         <source>Invalid amount for -%s=&lt;amount&gt;: '%s'</source>
         <translation>-%s=&lt;amount&gt; オプションに対する不正な amount: '%s'</translation>
     </message>
@@ -3415,8 +3527,12 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
         <translation>指定されたブロックディレクトリ "%s" は存在しません｡</translation>
     </message>
     <message>
-        <source>Unable to create the PID file '%s': %s</source>
-        <translation>PIDファイルの作成に失敗しました ('%s': %s)</translation>
+        <source>Unknown address type '%s'</source>
+        <translation>未知のアドレス形式 '%s' です</translation>
+    </message>
+    <message>
+        <source>Unknown change type '%s'</source>
+        <translation>未知のおつり用アドレス形式 '%s' です</translation>
     </message>
     <message>
         <source>Upgrading txindex database</source>
@@ -3425,6 +3541,10 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     <message>
         <source>Loading P2P addresses...</source>
         <translation>P2Pアドレスの読み込み中...</translation>
+    </message>
+    <message>
+        <source>Error: Disk space is too low!</source>
+        <translation>エラー: ディスク容量が不足しています！</translation>
     </message>
     <message>
         <source>Loading banlist...</source>
@@ -3515,10 +3635,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
         <translation>エラー: %s 用のディスク容量が不足しています</translation>
     </message>
     <message>
-        <source>Information</source>
-        <translation>情報</translation>
-    </message>
-    <message>
         <source>Invalid -onion address or hostname: '%s'</source>
         <translation>-onion オプションに対する不正なアドレスまたはホスト名: '%s'</translation>
     </message>
@@ -3539,6 +3655,10 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
         <translation>-whitebind オプションでポートを指定する必要があります: '%s'</translation>
     </message>
     <message>
+        <source>Prune mode is incompatible with -blockfilterindex.</source>
+        <translation>剪定モードは -blockfilterindex オプションと互換性がありません。</translation>
+    </message>
+    <message>
         <source>Reducing -maxconnections from %d to %d, because of system limitations.</source>
         <translation>システム上の制約から、-maxconnections を %d から %d に削減しました。</translation>
     </message>
@@ -3549,6 +3669,18 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     <message>
         <source>Signing transaction failed</source>
         <translation>取引の署名に失敗しました</translation>
+    </message>
+    <message>
+        <source>Specified -walletdir "%s" does not exist</source>
+        <translation>指定された -walletdir "%s" は存在しません。</translation>
+    </message>
+    <message>
+        <source>Specified -walletdir "%s" is a relative path</source>
+        <translation>指定された -walletdir "%s" は相対パスです。</translation>
+    </message>
+    <message>
+        <source>Specified -walletdir "%s" is not a directory</source>
+        <translation>指定された-walletdir "%s" はディレクトリではありません。</translation>
     </message>
     <message>
         <source>The specified config file %s does not exist
@@ -3569,10 +3701,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
         <translation>取引の金額が小さすぎます</translation>
     </message>
     <message>
-        <source>Transaction too large for fee policy</source>
-        <translation>手数料ポリシーに対してトランザクションが大きすぎます</translation>
-    </message>
-    <message>
         <source>Transaction too large</source>
         <translation>トランザクションが大きすぎます</translation>
     </message>
@@ -3581,20 +3709,20 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
         <translation>このコンピュータの %s にバインドすることができません（%s エラーが返却されました）</translation>
     </message>
     <message>
+        <source>Unable to create the PID file '%s': %s</source>
+        <translation>PIDファイルの作成に失敗しました ('%s': %s)</translation>
+    </message>
+    <message>
         <source>Unable to generate initial keys</source>
         <translation>イニシャル鍵を生成できません</translation>
     </message>
     <message>
+        <source>Unknown -blockfilterindex value %s.</source>
+        <translation>不明な -blockfilterindex の値 %s。</translation>
+    </message>
+    <message>
         <source>Verifying wallet(s)...</source>
         <translation>ウォレットの確認中...</translation>
-    </message>
-    <message>
-        <source>Wallet %s resides outside wallet directory %s</source>
-        <translation>ウォレット「%s」がウォレットフォルダ「%s」の外に存在します</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation>警告</translation>
     </message>
     <message>
         <source>Warning: unknown new rules activated (versionbit %i)</source>
@@ -3631,10 +3759,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     <message>
         <source>Error loading wallet %s. Duplicate -wallet filename specified.</source>
         <translation>ウォレット %s の読み込み時にエラーが発生しました。重複する -wallet ファイル名が指定されました。</translation>
-    </message>
-    <message>
-        <source>Keypool ran out, please call keypoolrefill first</source>
-        <translation>キープールが枯渇しました。まずはじめに keypoolrefill を呼び出してください</translation>
     </message>
     <message>
         <source>Starting network threads...</source>
@@ -3707,10 +3831,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
     <message>
         <source>Done loading</source>
         <translation>読み込み完了</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>エラー</translation>
     </message>
 </context>
 </TS>

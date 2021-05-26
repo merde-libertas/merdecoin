@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2018 The Bitcoin Core developers
+// Copyright (c) 2011-2018 The Merdecoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,17 +11,12 @@
 #include <qt/forms/ui_helpmessagedialog.h>
 
 #include <qt/bitcoingui.h>
-#include <qt/clientmodel.h>
-#include <qt/guiconstants.h>
-#include <qt/intro.h>
 #ifdef ENABLE_BIP70
 #include <qt/paymentrequestplus.h>
 #endif
-#include <qt/guiutil.h>
 
 #include <clientversion.h>
 #include <init.h>
-#include <interfaces/node.h>
 #include <util/system.h>
 #include <util/strencodings.h>
 

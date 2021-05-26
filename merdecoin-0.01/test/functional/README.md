@@ -92,7 +92,7 @@ implements the test logic.
 
 - `P2PConnection` is the class used to connect to a bitcoind.  `P2PInterface`
 contains the higher level logic for processing P2P payloads and connecting to
-the Bitcoin Core node application logic. For custom behaviour, subclass the
+the Merdecoin Core node application logic. For custom behaviour, subclass the
 P2PInterface object and override the callback methods.
 
 - Can be used to write tests where specific P2P protocol behavior is tested.
@@ -116,7 +116,7 @@ Basic code to support P2P connectivity to a bitcoind.
 Utilities for manipulating transaction scripts (originally from python-bitcoinlib)
 
 #### [test_framework/key.py](test_framework/key.py)
-Wrapper around OpenSSL EC_Key (originally from python-bitcoinlib)
+Test-only secp256k1 elliptic curve implementation
 
 #### [test_framework/bignum.py](test_framework/bignum.py)
 Helpers for script.py

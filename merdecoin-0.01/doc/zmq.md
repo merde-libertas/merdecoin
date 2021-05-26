@@ -5,7 +5,7 @@ connections, inter-process communication, and shared-memory,
 providing various message-oriented semantics such as publish/subscribe,
 request/reply, and push/pull.
 
-The Bitcoin Core daemon can be configured to act as a trusted "border
+The Merdecoin Core daemon can be configured to act as a trusted "border
 router", implementing the bitcoin wire protocol and relay, making
 consensus decisions, maintaining the local blockchain database,
 broadcasting locally generated transactions into the network, and
@@ -33,7 +33,7 @@ buffering or reassembly.
 
 ## Prerequisites
 
-The ZeroMQ feature in Bitcoin Core requires the ZeroMQ API >= 4.0.0
+The ZeroMQ feature in Merdecoin Core requires the ZeroMQ API >= 4.0.0
 [libzmq](https://github.com/zeromq/libzmq/releases).
 For version information, see [dependencies.md](dependencies.md).
 Typically, it is packaged by distributions as something like
@@ -111,7 +111,9 @@ using other means such as firewalling.
 
 Note that when the block chain tip changes, a reorganisation may occur
 and just the tip will be notified. It is up to the subscriber to
-retrieve the chain from the last known block to the new tip.
+retrieve the chain from the last known block to the new tip. Also note
+that no notification occurs if the tip was in the active chain - this
+is the case after calling invalidateblock RPC.
 
 There are several possibilities that ZMQ notification can get lost
 during transmission depending on the communication type you are

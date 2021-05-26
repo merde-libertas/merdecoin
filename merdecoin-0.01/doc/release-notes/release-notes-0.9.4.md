@@ -1,4 +1,4 @@
-Bitcoin Core version 0.9.4 is now available from:
+Merdecoin Core version 0.9.4 is now available from:
 
   https://bitcoin.org/bin/0.9.4/
 
@@ -22,18 +22,18 @@ OpenSSL Warning
 
 OpenSSL 1.0.0p / 1.0.1k was recently released and is being pushed out by
 various operating system maintainers. Review by Gregory Maxwell determined that
-this update is incompatible with the Bitcoin system and could lead to consensus
+this update is incompatible with the Merdecoin system and could lead to consensus
 forks.
 
-Bitcoin Core released binaries from https://bitcoin.org are unaffected,
+Merdecoin Core released binaries from https://bitcoin.org are unaffected,
 as are any built with the gitian deterministic build system.
 
 However, if you are running either
 
 - The Ubuntu PPA from https://launchpad.net/~bitcoin/+archive/ubuntu/bitcoin
-- A third-party or self-compiled Bitcoin Core
+- A third-party or self-compiled Merdecoin Core
 
-upgrade to Bitcoin Core 0.9.4, which includes a workaround, **before** updating
+upgrade to Merdecoin Core 0.9.4, which includes a workaround, **before** updating
 OpenSSL.
 
 The incompatibility is due to the OpenSSL update changing the
