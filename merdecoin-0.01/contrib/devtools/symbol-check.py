@@ -9,7 +9,7 @@ still compatible with the minimum supported Linux distribution versions.
 
 Example usage:
 
-    find ../gitian-builder/build -type f -executable | xargs python3 contrib/devtools/symbol-check.py
+    find ../gitian-builder/build -type f -executable | xargs python contrib/devtools/symbol-check.py
 '''
 import subprocess
 import re
@@ -53,7 +53,7 @@ READELF_CMD = os.getenv('READELF', '/usr/bin/readelf')
 CPPFILT_CMD = os.getenv('CPPFILT', '/usr/bin/c++filt')
 # Allowed NEEDED libraries
 ALLOWED_LIBRARIES = {
-# merdecoind and merdecoin-qt
+# bitcoind and bitcoin-qt
 'libgcc_s.so.1', # GCC base support
 'libc.so.6', # C library
 'libpthread.so.0', # threading
@@ -66,7 +66,9 @@ ALLOWED_LIBRARIES = {
 'ld-linux-aarch64.so.1', # 64-bit ARM dynamic linker
 'ld-linux-armhf.so.3', # 32-bit ARM dynamic linker
 'ld-linux-riscv64-lp64d.so.1', # 64-bit RISC-V dynamic linker
-# merdecoin-qt only
+# bitcoin-qt only
+'libX11-xcb.so.1', # part of X11
+'libX11.so.6', # part of X11
 'libxcb.so.1', # part of X11
 'libfontconfig.so.1', # font support
 'libfreetype.so.6', # font parsing
@@ -141,7 +143,7 @@ def read_libraries(filename):
     for line in stdout.splitlines():
         tokens = line.split()
         if len(tokens)>2 and tokens[1] == '(NEEDED)':
-            match = re.match(r'^Shared library: \[(.*)\]$', ' '.join(tokens[2:]))
+            match = re.match('^Shared library: \[(.*)\]$', ' '.join(tokens[2:]))
             if match:
                 libraries.append(match.group(1))
             else:
@@ -171,3 +173,5 @@ if __name__ == '__main__':
                 retval = 1
 
     sys.exit(retval)
+
+

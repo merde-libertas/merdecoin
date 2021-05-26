@@ -1,17 +1,11 @@
-// Copyright (c) 2011-2018 The Merdecoin Core developers
+// Copyright (c) 2011-2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#if defined(HAVE_CONFIG_H)
-#include <config/merdecoin-config.h>
-#endif
-
 #include <sync.h>
-#include <tinyformat.h>
 
 #include <logging.h>
 #include <util/strencodings.h>
-#include <util/threadnames.h>
 
 #include <stdio.h>
 
@@ -43,30 +37,23 @@ void PrintLockContention(const char* pszName, const char* pszFile, int nLine)
 //
 
 struct CLockLocation {
-    CLockLocation(
-        const char* pszName,
-        const char* pszFile,
-        int nLine,
-        bool fTryIn,
-        const std::string& thread_name)
-        : fTry(fTryIn),
-          mutexName(pszName),
-          sourceFile(pszFile),
-          m_thread_name(thread_name),
-          sourceLine(nLine) {}
+    CLockLocation(const char* pszName, const char* pszFile, int nLine, bool fTryIn)
+    {
+        mutexName = pszName;
+        sourceFile = pszFile;
+        sourceLine = nLine;
+        fTry = fTryIn;
+    }
 
     std::string ToString() const
     {
-        return strprintf(
-            "%s %s:%s%s (in thread %s)",
-            mutexName, sourceFile, itostr(sourceLine), (fTry ? " (TRY)" : ""), m_thread_name);
+        return mutexName + "  " + sourceFile + ":" + itostr(sourceLine) + (fTry ? " (TRY)" : "");
     }
 
 private:
     bool fTry;
     std::string mutexName;
     std::string sourceFile;
-    const std::string& m_thread_name;
     int sourceLine;
 };
 
@@ -138,7 +125,7 @@ static void push_lock(void* c, const CLockLocation& locklocation)
         std::pair<void*, void*> p1 = std::make_pair(i.first, c);
         if (lockdata.lockorders.count(p1))
             continue;
-        lockdata.lockorders.emplace(p1, g_lockstack);
+        lockdata.lockorders[p1] = g_lockstack;
 
         std::pair<void*, void*> p2 = std::make_pair(c, i.first);
         lockdata.invlockorders.insert(p2);
@@ -154,7 +141,7 @@ static void pop_lock()
 
 void EnterCritical(const char* pszName, const char* pszFile, int nLine, void* cs, bool fTry)
 {
-    push_lock(cs, CLockLocation(pszName, pszFile, nLine, fTry, util::ThreadGetInternalName()));
+    push_lock(cs, CLockLocation(pszName, pszFile, nLine, fTry));
 }
 
 void LeaveCritical()

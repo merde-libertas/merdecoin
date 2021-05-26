@@ -1,20 +1,16 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2019 The Merdecoin Core developers
+# Copyright (c) 2014-2018 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the -alertnotify, -blocknotify and -walletnotify options."""
 import os
 
 from test_framework.address import ADDRESS_BCRT1_UNSPENDABLE
-from test_framework.test_framework import MerdecoinTestFramework
-from test_framework.util import (
-    assert_equal,
-    wait_until,
-    connect_nodes,
-)
+from test_framework.test_framework import BitcoinTestFramework
+from test_framework.util import assert_equal, wait_until, connect_nodes_bi
 
 
-class NotificationsTest(MerdecoinTestFramework):
+class NotificationsTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
         self.setup_clean_chain = True
@@ -62,7 +58,7 @@ class NotificationsTest(MerdecoinTestFramework):
             self.log.info("test -walletnotify after rescan")
             # restart node to rescan to force wallet notifications
             self.start_node(1)
-            connect_nodes(self.nodes[0], 1)
+            connect_nodes_bi(self.nodes, 0, 1)
 
             wait_until(lambda: len(os.listdir(self.walletnotify_dir)) == block_count, timeout=10)
 

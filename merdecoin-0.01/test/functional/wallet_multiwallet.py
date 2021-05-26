@@ -1,26 +1,24 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2019 The Merdecoin Core developers
+# Copyright (c) 2017-2018 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test multiwallet.
 
-Verify that a merdecoind node can load multiple wallet files
+Verify that a bitcoind node can load multiple wallet files
 """
 import os
 import shutil
 import time
 
-from test_framework.test_framework import MerdecoinTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.test_node import ErrorMatch
 from test_framework.util import (
     assert_equal,
     assert_raises_rpc_error,
 )
 
-FEATURE_LATEST = 169900
 
-
-class MultiWalletTest(MerdecoinTestFramework):
+class MultiWalletTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 2
@@ -28,13 +26,6 @@ class MultiWalletTest(MerdecoinTestFramework):
 
     def skip_test_if_missing_module(self):
         self.skip_if_no_wallet()
-
-    def add_options(self, parser):
-        parser.add_argument(
-            '--data_wallets_dir',
-            default=os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data/wallets/'),
-            help='Test data with wallet directories (default: %(default)s)',
-        )
 
     def run_test(self):
         node = self.nodes[0]
@@ -102,12 +93,12 @@ class MultiWalletTest(MerdecoinTestFramework):
 
         # should not initialize if one wallet is a copy of another
         shutil.copyfile(wallet_dir('w8'), wallet_dir('w8_copy'))
-        exp_stderr = r"BerkeleyBatch: Can't open database w8_copy \(duplicates fileid \w+ from w8\)"
+        exp_stderr = "BerkeleyBatch: Can't open database w8_copy \(duplicates fileid \w+ from w8\)"
         self.nodes[0].assert_start_raises_init_error(['-wallet=w8', '-wallet=w8_copy'], exp_stderr, match=ErrorMatch.PARTIAL_REGEX)
 
         # should not initialize if wallet file is a symlink
         os.symlink('w8', wallet_dir('w8_symlink'))
-        self.nodes[0].assert_start_raises_init_error(['-wallet=w8_symlink'], r'Error: Invalid -wallet path \'w8_symlink\'\. .*', match=ErrorMatch.FULL_REGEX)
+        self.nodes[0].assert_start_raises_init_error(['-wallet=w8_symlink'], 'Error: Invalid -wallet path \'w8_symlink\'\. .*', match=ErrorMatch.FULL_REGEX)
 
         # should not initialize if the specified walletdir does not exist
         self.nodes[0].assert_start_raises_init_error(['-walletdir=bad'], 'Error: Specified -walletdir "bad" does not exist')
@@ -148,7 +139,7 @@ class MultiWalletTest(MerdecoinTestFramework):
         competing_wallet_dir = os.path.join(self.options.tmpdir, 'competing_walletdir')
         os.mkdir(competing_wallet_dir)
         self.restart_node(0, ['-walletdir=' + competing_wallet_dir])
-        exp_stderr = r"Error: Error initializing wallet database environment \"\S+competing_walletdir\"!"
+        exp_stderr = "Error: Error initializing wallet database environment \"\S+competing_walletdir\"!"
         self.nodes[1].assert_start_raises_init_error(['-walletdir=' + competing_wallet_dir], exp_stderr, match=ErrorMatch.PARTIAL_REGEX)
 
         self.restart_node(0, extra_args)
@@ -331,22 +322,6 @@ class MultiWalletTest(MerdecoinTestFramework):
         assert_raises_rpc_error(-4, "Error initializing wallet database environment", self.nodes[1].loadwallet, wallet)
         self.nodes[0].unloadwallet(wallet)
         self.nodes[1].loadwallet(wallet)
-
-        # Fail to load if wallet is downgraded
-        shutil.copytree(os.path.join(self.options.data_wallets_dir, 'high_minversion'), wallet_dir('high_minversion'))
-        self.restart_node(0, extra_args=['-upgradewallet={}'.format(FEATURE_LATEST)])
-        assert {'name': 'high_minversion'} in self.nodes[0].listwalletdir()['wallets']
-        self.log.info("Fail -upgradewallet that results in downgrade")
-        assert_raises_rpc_error(
-            -4,
-            "Wallet loading failed.",
-            lambda: self.nodes[0].loadwallet(filename='high_minversion'),
-        )
-        self.stop_node(
-            i=0,
-            expected_stderr='Error: Error loading {}: Wallet requires newer version of Merdecoin Core'.format(
-                wallet_dir('high_minversion', 'wallet.dat')),
-        )
 
 
 if __name__ == '__main__':

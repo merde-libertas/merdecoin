@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2019 The Merdecoin Core developers
+# Copyright (c) 2019 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Run fuzz test targets.
@@ -106,10 +106,8 @@ def run_once(*, corpus, test_list, build_dir, export_coverage):
             os.path.join(corpus, t),
         ]
         logging.debug('Run {} with args {}'.format(t, args))
-        result = subprocess.run(args, stderr=subprocess.PIPE, universal_newlines=True)
-        output = result.stderr
+        output = subprocess.run(args, check=True, stderr=subprocess.PIPE, universal_newlines=True).stderr
         logging.debug('Output: {}'.format(output))
-        result.check_returncode()
         if not export_coverage:
             continue
         for l in output.splitlines():

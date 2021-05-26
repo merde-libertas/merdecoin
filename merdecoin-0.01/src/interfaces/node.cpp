@@ -1,4 +1,4 @@
-// Copyright (c) 2018 The Merdecoin Core developers
+// Copyright (c) 2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -20,11 +20,10 @@
 #include <policy/feerate.h>
 #include <policy/fees.h>
 #include <policy/policy.h>
-#include <policy/settings.h>
 #include <primitives/block.h>
 #include <rpc/server.h>
+#include <scheduler.h>
 #include <shutdown.h>
-#include <support/allocators/secure.h>
 #include <sync.h>
 #include <txmempool.h>
 #include <ui_interface.h>
@@ -33,7 +32,7 @@
 #include <warnings.h>
 
 #if defined(HAVE_CONFIG_H)
-#include <config/merdecoin-config.h>
+#include <config/bitcoin-config.h>
 #endif
 
 #include <atomic>
@@ -44,10 +43,10 @@ fs::path GetWalletDir();
 std::vector<fs::path> ListWalletDir();
 std::vector<std::shared_ptr<CWallet>> GetWallets();
 std::shared_ptr<CWallet> LoadWallet(interfaces::Chain& chain, const std::string& name, std::string& error, std::string& warning);
-WalletCreationStatus CreateWallet(interfaces::Chain& chain, const SecureString& passphrase, uint64_t wallet_creation_flags, const std::string& name, std::string& error, std::string& warning, std::shared_ptr<CWallet>& result);
-std::unique_ptr<interfaces::Handler> HandleLoadWallet(interfaces::Node::LoadWalletFn load_wallet);
 
 namespace interfaces {
+
+class Wallet;
 
 namespace {
 
@@ -55,13 +54,11 @@ class NodeImpl : public Node
 {
 public:
     NodeImpl() { m_interfaces.chain = MakeChain(); }
-    void initError(const std::string& message) override { InitError(message); }
     bool parseParameters(int argc, const char* const argv[], std::string& error) override
     {
         return gArgs.ParseParameters(argc, argv, error);
     }
     bool readConfigFiles(std::string& error) override { return gArgs.ReadConfigFiles(error, true); }
-    void forceSetArg(const std::string& arg, const std::string& value) override { gArgs.ForceSetArg(arg, value); }
     bool softSetArg(const std::string& arg, const std::string& value) override { return gArgs.SoftSetArg(arg, value); }
     bool softSetBoolArg(const std::string& arg, bool value) override { return gArgs.SoftSetBoolArg(arg, value); }
     void selectParams(const std::string& network) override { SelectParams(network); }
@@ -180,13 +177,13 @@ public:
     int getNumBlocks() override
     {
         LOCK(::cs_main);
-        return ::ChainActive().Height();
+        return ::chainActive.Height();
     }
     int64_t getLastBlockTime() override
     {
         LOCK(::cs_main);
-        if (::ChainActive().Tip()) {
-            return ::ChainActive().Tip()->GetBlockTime();
+        if (::chainActive.Tip()) {
+            return ::chainActive.Tip()->GetBlockTime();
         }
         return Params().GenesisBlock().GetBlockTime(); // Genesis block's time of current network
     }
@@ -195,12 +192,11 @@ public:
         const CBlockIndex* tip;
         {
             LOCK(::cs_main);
-            tip = ::ChainActive().Tip();
+            tip = ::chainActive.Tip();
         }
         return GuessVerificationProgress(Params().TxData(), tip);
     }
-    bool isInitialBlockDownload() override { return ::ChainstateActive().IsInitialBlockDownload(); }
-    bool isAddressTypeSet() override { return !::gArgs.GetArg("-addresstype", "").empty(); }
+    bool isInitialBlockDownload() override { return IsInitialBlockDownload(); }
     bool getReindex() override { return ::fReindex; }
     bool getImporting() override { return ::fImporting; }
     void setNetworkActive(bool active) override
@@ -210,6 +206,7 @@ public:
         }
     }
     bool getNetworkActive() override { return g_connman && g_connman->GetNetworkActive(); }
+    CAmount getMaxTxFee() override { return ::maxTxFee; }
     CFeeRate estimateSmartFee(int num_blocks, bool conservative, int* returned_target = nullptr) override
     {
         FeeCalculation fee_calc;
@@ -234,7 +231,7 @@ public:
     bool getUnspentOutput(const COutPoint& output, Coin& coin) override
     {
         LOCK(::cs_main);
-        return ::ChainstateActive().CoinsTip().GetCoin(output, coin);
+        return ::pcoinsTip->GetCoin(output, coin);
     }
     std::string getWalletDir() override
     {
@@ -260,13 +257,6 @@ public:
     {
         return MakeWallet(LoadWallet(*m_interfaces.chain, name, error, warning));
     }
-    WalletCreationStatus createWallet(const SecureString& passphrase, uint64_t wallet_creation_flags, const std::string& name, std::string& error, std::string& warning, std::unique_ptr<Wallet>& result) override
-    {
-        std::shared_ptr<CWallet> wallet;
-        WalletCreationStatus status = CreateWallet(*m_interfaces.chain, passphrase, wallet_creation_flags, name, error, warning, wallet);
-        result = MakeWallet(wallet);
-        return status;
-    }
     std::unique_ptr<Handler> handleInitMessage(InitMessageFn fn) override
     {
         return MakeHandler(::uiInterface.InitMessage_connect(fn));
@@ -285,7 +275,7 @@ public:
     }
     std::unique_ptr<Handler> handleLoadWallet(LoadWalletFn fn) override
     {
-        return HandleLoadWallet(std::move(fn));
+        return MakeHandler(::uiInterface.LoadWallet_connect([fn](std::shared_ptr<CWallet> wallet) { fn(MakeWallet(wallet)); }));
     }
     std::unique_ptr<Handler> handleNotifyNumConnectionsChanged(NotifyNumConnectionsChangedFn fn) override
     {

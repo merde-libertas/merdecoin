@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2018 The Merdecoin Core developers
+# Copyright (c) 2014-2018 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test mempool persistence.
 
-By default, merdecoind will dump mempool on shutdown and
+By default, bitcoind will dump mempool on shutdown and
 then reload it on startup. This can be overridden with
 the -persistmempool=0 command line option.
 
@@ -37,12 +37,13 @@ Test is as follows:
 """
 from decimal import Decimal
 import os
+import time
 
-from test_framework.test_framework import MerdecoinTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import assert_equal, assert_raises_rpc_error, wait_until
 
 
-class MempoolPersistTest(MerdecoinTestFramework):
+class MempoolPersistTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 3
         self.extra_args = [[], ["-persistmempool=0"], []]
@@ -82,10 +83,9 @@ class MempoolPersistTest(MerdecoinTestFramework):
         self.start_node(1, extra_args=["-persistmempool=0"])
         self.start_node(0)
         self.start_node(2)
-        wait_until(lambda: self.nodes[0].getmempoolinfo()["loaded"], timeout=1)
-        wait_until(lambda: self.nodes[2].getmempoolinfo()["loaded"], timeout=1)
-        assert_equal(len(self.nodes[0].getrawmempool()), 5)
-        assert_equal(len(self.nodes[2].getrawmempool()), 5)
+        # Give bitcoind a second to reload the mempool
+        wait_until(lambda: len(self.nodes[0].getrawmempool()) == 5, timeout=1)
+        wait_until(lambda: len(self.nodes[2].getrawmempool()) == 5, timeout=1)
         # The others have loaded their mempool. If node_1 loaded anything, we'd probably notice by now:
         assert_equal(len(self.nodes[1].getrawmempool()), 0)
 
@@ -100,14 +100,14 @@ class MempoolPersistTest(MerdecoinTestFramework):
         self.log.debug("Stop-start node0 with -persistmempool=0. Verify that it doesn't load its mempool.dat file.")
         self.stop_nodes()
         self.start_node(0, extra_args=["-persistmempool=0"])
-        wait_until(lambda: self.nodes[0].getmempoolinfo()["loaded"])
+        # Give bitcoind a second to reload the mempool
+        time.sleep(1)
         assert_equal(len(self.nodes[0].getrawmempool()), 0)
 
         self.log.debug("Stop-start node0. Verify that it has the transactions in its mempool.")
         self.stop_nodes()
         self.start_node(0)
-        wait_until(lambda: self.nodes[0].getmempoolinfo()["loaded"])
-        assert_equal(len(self.nodes[0].getrawmempool()), 5)
+        wait_until(lambda: len(self.nodes[0].getrawmempool()) == 5)
 
         mempooldat0 = os.path.join(self.nodes[0].datadir, 'regtest', 'mempool.dat')
         mempooldat1 = os.path.join(self.nodes[1].datadir, 'regtest', 'mempool.dat')
@@ -120,10 +120,9 @@ class MempoolPersistTest(MerdecoinTestFramework):
         os.rename(mempooldat0, mempooldat1)
         self.stop_nodes()
         self.start_node(1, extra_args=[])
-        wait_until(lambda: self.nodes[1].getmempoolinfo()["loaded"])
-        assert_equal(len(self.nodes[1].getrawmempool()), 5)
+        wait_until(lambda: len(self.nodes[1].getrawmempool()) == 5)
 
-        self.log.debug("Prevent merdecoind from writing mempool.dat to disk. Verify that `savemempool` fails")
+        self.log.debug("Prevent bitcoind from writing mempool.dat to disk. Verify that `savemempool` fails")
         # to test the exception we are creating a tmp folder called mempool.dat.new
         # which is an implementation detail that could change and break this test
         mempooldotnew1 = mempooldat1 + '.new'

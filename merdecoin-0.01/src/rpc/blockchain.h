@@ -1,21 +1,16 @@
-// Copyright (c) 2017-2018 The Merdecoin Core developers
+// Copyright (c) 2017-2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef BITCOIN_RPC_BLOCKCHAIN_H
 #define BITCOIN_RPC_BLOCKCHAIN_H
 
-#include <amount.h>
-#include <sync.h>
-
-#include <stdint.h>
 #include <vector>
-
-extern RecursiveMutex cs_main;
+#include <stdint.h>
+#include <amount.h>
 
 class CBlock;
 class CBlockIndex;
-class CTxMemPool;
 class UniValue;
 
 static constexpr int NUM_GETBLOCKSTATS_PERCENTILES = 5;
@@ -32,16 +27,16 @@ double GetDifficulty(const CBlockIndex* blockindex);
 void RPCNotifyBlockChange(bool ibd, const CBlockIndex *);
 
 /** Block description to JSON */
-UniValue blockToJSON(const CBlock& block, const CBlockIndex* tip, const CBlockIndex* blockindex, bool txDetails = false) LOCKS_EXCLUDED(cs_main);
+UniValue blockToJSON(const CBlock& block, const CBlockIndex* tip, const CBlockIndex* blockindex, bool txDetails = false);
 
 /** Mempool information to JSON */
-UniValue MempoolInfoToJSON(const CTxMemPool& pool);
+UniValue mempoolInfoToJSON();
 
 /** Mempool to JSON */
-UniValue MempoolToJSON(const CTxMemPool& pool, bool verbose = false);
+UniValue mempoolToJSON(bool fVerbose = false);
 
 /** Block header to JSON */
-UniValue blockheaderToJSON(const CBlockIndex* tip, const CBlockIndex* blockindex) LOCKS_EXCLUDED(cs_main);
+UniValue blockheaderToJSON(const CBlockIndex* tip, const CBlockIndex* blockindex);
 
 /** Used by getblockstats to get feerates at different percentiles by weight  */
 void CalculatePercentilesByWeight(CAmount result[NUM_GETBLOCKSTATS_PERCENTILES], std::vector<std::pair<CAmount, int64_t>>& scores, int64_t total_weight);

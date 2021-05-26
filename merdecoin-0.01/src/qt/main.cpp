@@ -1,10 +1,8 @@
-// Copyright (c) 2018 The Merdecoin Core developers
+// Copyright (c) 2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <qt/merdecoin.h>
-
-#include <util/translation.h>
+#include <qt/bitcoin.h>
 
 #include <QCoreApplication>
 
@@ -13,7 +11,7 @@
 
 /** Translate string to current locale using Qt. */
 extern const std::function<std::string(const char*)> G_TRANSLATION_FUN = [](const char* psz) {
-    return QCoreApplication::translate("merdecoin-core", psz).toStdString();
+    return QCoreApplication::translate("bitcoin-core", psz).toStdString();
 };
 
 int main(int argc, char* argv[]) { return GuiMain(argc, argv); }

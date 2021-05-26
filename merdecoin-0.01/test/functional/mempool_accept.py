@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017-2019 The Merdecoin Core developers
+# Copyright (c) 2017-2018 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test mempool acceptance of raw transactions."""
@@ -7,7 +7,7 @@
 from io import BytesIO
 import math
 
-from test_framework.test_framework import MerdecoinTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.messages import (
     BIP125_SEQUENCE_NUMBER,
     COIN,
@@ -27,15 +27,17 @@ from test_framework.script import (
 from test_framework.util import (
     assert_equal,
     assert_raises_rpc_error,
+    bytes_to_hex_str,
     hex_str_to_bytes,
 )
 
 
-class MempoolAcceptanceTest(MerdecoinTestFramework):
+class MempoolAcceptanceTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.extra_args = [[
             '-txindex',
+            '-acceptnonstdtxn=0',  # Try to mimic main-net
         ]] * self.num_nodes
 
     def skip_test_if_missing_module(self):
@@ -67,7 +69,7 @@ class MempoolAcceptanceTest(MerdecoinTestFramework):
             inputs=[{'txid': coin['txid'], 'vout': coin['vout']}],
             outputs=[{node.getnewaddress(): 0.3}, {node.getnewaddress(): 49}],
         ))['hex']
-        txid_in_block = node.sendrawtransaction(hexstring=raw_tx_in_block, maxfeerate=0)
+        txid_in_block = node.sendrawtransaction(hexstring=raw_tx_in_block, allowhighfees=True)
         node.generate(1)
         self.mempool_size = 0
         self.check_mempool_result(
@@ -99,10 +101,10 @@ class MempoolAcceptanceTest(MerdecoinTestFramework):
         tx.deserialize(BytesIO(hex_str_to_bytes(raw_tx_final)))
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': True}],
-            rawtxs=[tx.serialize().hex()],
-            maxfeerate=0,
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
+            allowhighfees=True,
         )
-        node.sendrawtransaction(hexstring=raw_tx_final, maxfeerate=0)
+        node.sendrawtransaction(hexstring=raw_tx_final, allowhighfees=True)
         self.mempool_size += 1
 
         self.log.info('A transaction in the mempool')
@@ -117,7 +119,7 @@ class MempoolAcceptanceTest(MerdecoinTestFramework):
         tx.deserialize(BytesIO(hex_str_to_bytes(raw_tx_0)))
         tx.vout[0].nValue -= int(fee * COIN)  # Double the fee
         tx.vin[0].nSequence = BIP125_SEQUENCE_NUMBER + 1  # Now, opt out of RBF
-        raw_tx_0 = node.signrawtransactionwithwallet(tx.serialize().hex())['hex']
+        raw_tx_0 = node.signrawtransactionwithwallet(bytes_to_hex_str(tx.serialize()))['hex']
         tx.deserialize(BytesIO(hex_str_to_bytes(raw_tx_0)))
         txid_0 = tx.rehash()
         self.check_mempool_result(
@@ -127,15 +129,15 @@ class MempoolAcceptanceTest(MerdecoinTestFramework):
 
         self.log.info('A transaction that conflicts with an unconfirmed tx')
         # Send the transaction that replaces the mempool transaction and opts out of replaceability
-        node.sendrawtransaction(hexstring=tx.serialize().hex(), maxfeerate=0)
+        node.sendrawtransaction(hexstring=bytes_to_hex_str(tx.serialize()), allowhighfees=True)
         # take original raw_tx_0
         tx.deserialize(BytesIO(hex_str_to_bytes(raw_tx_0)))
         tx.vout[0].nValue -= int(4 * fee * COIN)  # Set more fee
         # skip re-signing the tx
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': '18: txn-mempool-conflict'}],
-            rawtxs=[tx.serialize().hex()],
-            maxfeerate=0,
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
+            allowhighfees=True,
         )
 
         self.log.info('A transaction with missing inputs, that never existed')
@@ -144,14 +146,14 @@ class MempoolAcceptanceTest(MerdecoinTestFramework):
         # skip re-signing the tx
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': 'missing-inputs'}],
-            rawtxs=[tx.serialize().hex()],
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
         )
 
         self.log.info('A transaction with missing inputs, that existed once in the past')
         tx.deserialize(BytesIO(hex_str_to_bytes(raw_tx_0)))
         tx.vin[0].prevout.n = 1  # Set vout to 1, to spend the other outpoint (49 coins) of the in-chain-tx we want to double spend
-        raw_tx_1 = node.signrawtransactionwithwallet(tx.serialize().hex())['hex']
-        txid_1 = node.sendrawtransaction(hexstring=raw_tx_1, maxfeerate=0)
+        raw_tx_1 = node.signrawtransactionwithwallet(bytes_to_hex_str(tx.serialize()))['hex']
+        txid_1 = node.sendrawtransaction(hexstring=raw_tx_1, allowhighfees=True)
         # Now spend both to "clearly hide" the outputs, ie. remove the coins from the utxo set by spending them
         raw_tx_spend_both = node.signrawtransactionwithwallet(node.createrawtransaction(
             inputs=[
@@ -160,7 +162,7 @@ class MempoolAcceptanceTest(MerdecoinTestFramework):
             ],
             outputs=[{node.getnewaddress(): 0.1}]
         ))['hex']
-        txid_spend_both = node.sendrawtransaction(hexstring=raw_tx_spend_both, maxfeerate=0)
+        txid_spend_both = node.sendrawtransaction(hexstring=raw_tx_spend_both, allowhighfees=True)
         node.generate(1)
         self.mempool_size = 0
         # Now see if we can add the coins back to the utxo set by sending the exact txs again
@@ -182,18 +184,17 @@ class MempoolAcceptanceTest(MerdecoinTestFramework):
         # Reference tx should be valid on itself
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': True}],
-            rawtxs=[tx.serialize().hex()],
-            maxfeerate=0,
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
         )
 
         self.log.info('A transaction with no outputs')
         tx.deserialize(BytesIO(hex_str_to_bytes(raw_tx_reference)))
         tx.vout = []
         # Skip re-signing the transaction for context independent checks from now on
-        # tx.deserialize(BytesIO(hex_str_to_bytes(node.signrawtransactionwithwallet(tx.serialize().hex())['hex'])))
+        # tx.deserialize(BytesIO(hex_str_to_bytes(node.signrawtransactionwithwallet(bytes_to_hex_str(tx.serialize()))['hex'])))
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': '16: bad-txns-vout-empty'}],
-            rawtxs=[tx.serialize().hex()],
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
         )
 
         self.log.info('A really large transaction')
@@ -201,7 +202,7 @@ class MempoolAcceptanceTest(MerdecoinTestFramework):
         tx.vin = [tx.vin[0]] * math.ceil(MAX_BLOCK_BASE_SIZE / len(tx.vin[0].serialize()))
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': '16: bad-txns-oversize'}],
-            rawtxs=[tx.serialize().hex()],
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
         )
 
         self.log.info('A transaction with negative output value')
@@ -209,16 +210,15 @@ class MempoolAcceptanceTest(MerdecoinTestFramework):
         tx.vout[0].nValue *= -1
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': '16: bad-txns-vout-negative'}],
-            rawtxs=[tx.serialize().hex()],
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
         )
 
-        # The following two validations prevent overflow of the output amounts (see CVE-2010-5139).
         self.log.info('A transaction with too large output value')
         tx.deserialize(BytesIO(hex_str_to_bytes(raw_tx_reference)))
         tx.vout[0].nValue = 21000000 * COIN + 1
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': '16: bad-txns-vout-toolarge'}],
-            rawtxs=[tx.serialize().hex()],
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
         )
 
         self.log.info('A transaction with too large sum of output values')
@@ -227,7 +227,7 @@ class MempoolAcceptanceTest(MerdecoinTestFramework):
         tx.vout[0].nValue = 21000000 * COIN
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': '16: bad-txns-txouttotal-toolarge'}],
-            rawtxs=[tx.serialize().hex()],
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
         )
 
         self.log.info('A transaction with duplicate inputs')
@@ -235,7 +235,7 @@ class MempoolAcceptanceTest(MerdecoinTestFramework):
         tx.vin = [tx.vin[0]] * 2
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': '16: bad-txns-inputs-duplicate'}],
-            rawtxs=[tx.serialize().hex()],
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
         )
 
         self.log.info('A coinbase transaction')
@@ -244,7 +244,7 @@ class MempoolAcceptanceTest(MerdecoinTestFramework):
         tx.deserialize(BytesIO(hex_str_to_bytes(raw_tx_coinbase_spent)))
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': '16: coinbase'}],
-            rawtxs=[tx.serialize().hex()],
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
         )
 
         self.log.info('Some nonstandard transactions')
@@ -252,19 +252,19 @@ class MempoolAcceptanceTest(MerdecoinTestFramework):
         tx.nVersion = 3  # A version currently non-standard
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': '64: version'}],
-            rawtxs=[tx.serialize().hex()],
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
         )
         tx.deserialize(BytesIO(hex_str_to_bytes(raw_tx_reference)))
         tx.vout[0].scriptPubKey = CScript([OP_0])  # Some non-standard script
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': '64: scriptpubkey'}],
-            rawtxs=[tx.serialize().hex()],
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
         )
         tx.deserialize(BytesIO(hex_str_to_bytes(raw_tx_reference)))
         tx.vin[0].scriptSig = CScript([OP_HASH160])  # Some not-pushonly scriptSig
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': '64: scriptsig-not-pushonly'}],
-            rawtxs=[tx.serialize().hex()],
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
         )
         tx.deserialize(BytesIO(hex_str_to_bytes(raw_tx_reference)))
         output_p2sh_burn = CTxOut(nValue=540, scriptPubKey=CScript([OP_HASH160, hash160(b'burn'), OP_EQUAL]))
@@ -272,21 +272,21 @@ class MempoolAcceptanceTest(MerdecoinTestFramework):
         tx.vout = [output_p2sh_burn] * num_scripts
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': '64: tx-size'}],
-            rawtxs=[tx.serialize().hex()],
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
         )
         tx.deserialize(BytesIO(hex_str_to_bytes(raw_tx_reference)))
         tx.vout[0] = output_p2sh_burn
         tx.vout[0].nValue -= 1  # Make output smaller, such that it is dust for our policy
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': '64: dust'}],
-            rawtxs=[tx.serialize().hex()],
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
         )
         tx.deserialize(BytesIO(hex_str_to_bytes(raw_tx_reference)))
         tx.vout[0].scriptPubKey = CScript([OP_RETURN, b'\xff'])
         tx.vout = [tx.vout[0]] * 2
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': '64: multi-op-return'}],
-            rawtxs=[tx.serialize().hex()],
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
         )
 
         self.log.info('A timelocked transaction')
@@ -295,7 +295,7 @@ class MempoolAcceptanceTest(MerdecoinTestFramework):
         tx.nLockTime = node.getblockcount() + 1
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': '64: non-final'}],
-            rawtxs=[tx.serialize().hex()],
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
         )
 
         self.log.info('A transaction that is locked by BIP68 sequence logic')
@@ -304,8 +304,8 @@ class MempoolAcceptanceTest(MerdecoinTestFramework):
         # Can skip re-signing the tx because of early rejection
         self.check_mempool_result(
             result_expected=[{'txid': tx.rehash(), 'allowed': False, 'reject-reason': '64: non-BIP68-final'}],
-            rawtxs=[tx.serialize().hex()],
-            maxfeerate=0,
+            rawtxs=[bytes_to_hex_str(tx.serialize())],
+            allowhighfees=True,
         )
 
 

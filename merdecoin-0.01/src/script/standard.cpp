@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2018 The Merdecoin Core developers
+// Copyright (c) 2009-2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,6 +8,9 @@
 #include <crypto/sha256.h>
 #include <pubkey.h>
 #include <script/script.h>
+#include <util/system.h>
+#include <util/strencodings.h>
+
 
 typedef std::vector<unsigned char> valtype;
 
@@ -15,10 +18,6 @@ bool fAcceptDatacarrier = DEFAULT_ACCEPT_DATACARRIER;
 unsigned nMaxDatacarrierBytes = MAX_OP_RETURN_RELAY;
 
 CScriptID::CScriptID(const CScript& in) : uint160(Hash160(in.begin(), in.end())) {}
-
-ScriptHash::ScriptHash(const CScript& in) : uint160(Hash160(in.begin(), in.end())) {}
-
-PKHash::PKHash(const CPubKey& pubkey) : uint160(pubkey.GetID()) {}
 
 WitnessV0ScriptHash::WitnessV0ScriptHash(const CScript& in)
 {
@@ -163,17 +162,17 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
         if (!pubKey.IsValid())
             return false;
 
-        addressRet = PKHash(pubKey);
+        addressRet = pubKey.GetID();
         return true;
     }
     else if (whichType == TX_PUBKEYHASH)
     {
-        addressRet = PKHash(uint160(vSolutions[0]));
+        addressRet = CKeyID(uint160(vSolutions[0]));
         return true;
     }
     else if (whichType == TX_SCRIPTHASH)
     {
-        addressRet = ScriptHash(uint160(vSolutions[0]));
+        addressRet = CScriptID(uint160(vSolutions[0]));
         return true;
     } else if (whichType == TX_WITNESS_V0_KEYHASH) {
         WitnessV0KeyHash hash;
@@ -218,7 +217,7 @@ bool ExtractDestinations(const CScript& scriptPubKey, txnouttype& typeRet, std::
             if (!pubKey.IsValid())
                 continue;
 
-            CTxDestination address = PKHash(pubKey);
+            CTxDestination address = pubKey.GetID();
             addressRet.push_back(address);
         }
 
@@ -251,13 +250,13 @@ public:
         return false;
     }
 
-    bool operator()(const PKHash &keyID) const {
+    bool operator()(const CKeyID &keyID) const {
         script->clear();
         *script << OP_DUP << OP_HASH160 << ToByteVector(keyID) << OP_EQUALVERIFY << OP_CHECKSIG;
         return true;
     }
 
-    bool operator()(const ScriptHash &scriptID) const {
+    bool operator()(const CScriptID &scriptID) const {
         script->clear();
         *script << OP_HASH160 << ToByteVector(scriptID) << OP_EQUAL;
         return true;

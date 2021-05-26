@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Copyright (c) 2017 The Merdecoin Core developers
+# Copyright (c) 2017 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #
@@ -73,6 +73,7 @@ enabled=(
     W291 # trailing whitespace
     W292 # no newline at end of file
     W293 # blank line contains whitespace
+    W504 # line break after binary operator
     W601 # .has_key() is deprecated, use "in"
     W602 # deprecated form of raising exception
     W603 # "<>" is deprecated, use "!="
@@ -89,10 +90,4 @@ elif PYTHONWARNINGS="ignore" flake8 --version | grep -q "Python 2"; then
     exit 0
 fi
 
-PYTHONWARNINGS="ignore" flake8 --ignore=B,C,E,F,I,N,W --select=$(IFS=","; echo "${enabled[*]}") $(
-    if [[ $# == 0 ]]; then
-        git ls-files "*.py"
-    else
-        echo "$@"
-    fi
-)
+PYTHONWARNINGS="ignore" flake8 --ignore=B,C,E,F,I,N,W --select=$(IFS=","; echo "${enabled[*]}") "${@:-.}"

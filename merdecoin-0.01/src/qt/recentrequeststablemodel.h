@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2018 The Merdecoin Core developers
+// Copyright (c) 2011-2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -43,14 +43,14 @@ class RecentRequestEntryLessThan
 public:
     RecentRequestEntryLessThan(int nColumn, Qt::SortOrder fOrder):
         column(nColumn), order(fOrder) {}
-    bool operator()(const RecentRequestEntry& left, const RecentRequestEntry& right) const;
+    bool operator()(RecentRequestEntry &left, RecentRequestEntry &right) const;
 
 private:
     int column;
     Qt::SortOrder order;
 };
 
-/** Model for list of recently generated payment requests / merdecoin: URIs.
+/** Model for list of recently generated payment requests / bitcoin: URIs.
  * Part of wallet model.
  */
 class RecentRequestsTableModel: public QAbstractTableModel
@@ -76,7 +76,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role);
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+    QModelIndex index(int row, int column, const QModelIndex &parent) const;
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
     Qt::ItemFlags flags(const QModelIndex &index) const;
     /*@}*/

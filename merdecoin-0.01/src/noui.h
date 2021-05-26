@@ -1,4 +1,4 @@
-// Copyright (c) 2013-2018 The Merdecoin Core developers
+// Copyright (c) 2013-2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -14,13 +14,7 @@ bool noui_ThreadSafeQuestion(const std::string& /* ignored interactive message *
 /** Non-GUI handler, which only logs a message. */
 void noui_InitMessage(const std::string& message);
 
-/** Connect all merdecoind signal handlers */
+/** Connect all bitcoind signal handlers */
 void noui_connect();
-
-/** Suppress all merdecoind signal handlers. Used to suppress output during test runs that produce expected errors */
-void noui_suppress();
-
-/** Reconnects the regular Non-GUI handlers after having used noui_suppress */
-void noui_reconnect();
 
 #endif // BITCOIN_NOUI_H

@@ -1,11 +1,11 @@
-// Copyright (c) 2011-2019 The Merdecoin Core developers
+// Copyright (c) 2011-2019 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/walletframe.h>
 #include <qt/walletmodel.h>
 
-#include <qt/merdecoingui.h>
+#include <qt/bitcoingui.h>
 #include <qt/walletview.h>
 
 #include <cassert>
@@ -14,7 +14,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 
-WalletFrame::WalletFrame(const PlatformStyle *_platformStyle, MerdecoinGUI *_gui) :
+WalletFrame::WalletFrame(const PlatformStyle *_platformStyle, BitcoinGUI *_gui) :
     QFrame(_gui),
     gui(_gui),
     platformStyle(_platformStyle)
@@ -42,12 +42,16 @@ void WalletFrame::setClientModel(ClientModel *_clientModel)
 
 bool WalletFrame::addWallet(WalletModel *walletModel)
 {
-    if (!gui || !clientModel || !walletModel) return false;
+    if (!gui || !clientModel || !walletModel) {
+        return false;
+    }
 
-    if (mapWalletViews.count(walletModel) > 0) return false;
+    if (mapWalletViews.count(walletModel) > 0) {
+        return false;
+    }
 
     WalletView *walletView = new WalletView(platformStyle, this);
-    walletView->setMerdecoinGUI(gui);
+    walletView->setBitcoinGUI(gui);
     walletView->setClientModel(clientModel);
     walletView->setWalletModel(walletModel);
     walletView->showOutOfSyncWarning(bOutOfSync);
@@ -72,23 +76,27 @@ bool WalletFrame::addWallet(WalletModel *walletModel)
     return true;
 }
 
-void WalletFrame::setCurrentWallet(WalletModel* wallet_model)
+bool WalletFrame::setCurrentWallet(WalletModel* wallet_model)
 {
-    if (mapWalletViews.count(wallet_model) == 0) return;
+    if (mapWalletViews.count(wallet_model) == 0)
+        return false;
 
     WalletView *walletView = mapWalletViews.value(wallet_model);
     walletStack->setCurrentWidget(walletView);
     assert(walletView);
     walletView->updateEncryptionStatus();
+    return true;
 }
 
-void WalletFrame::removeWallet(WalletModel* wallet_model)
+bool WalletFrame::removeWallet(WalletModel* wallet_model)
 {
-    if (mapWalletViews.count(wallet_model) == 0) return;
+    if (mapWalletViews.count(wallet_model) == 0)
+        return false;
 
     WalletView *walletView = mapWalletViews.take(wallet_model);
     walletStack->removeWidget(walletView);
     delete walletView;
+    return true;
 }
 
 void WalletFrame::removeAllWallets()

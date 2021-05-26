@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2018 The Merdecoin Core developers
+// Copyright (c) 2009-2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -48,7 +48,7 @@
 #include <boost/thread.hpp>
 
 #if defined(NDEBUG)
-# error "Merdecoin cannot be compiled without assertions."
+# error "Bitcoin cannot be compiled without assertions."
 #endif
 
 #define MICRO 0.000001
@@ -257,7 +257,7 @@ std::atomic_bool g_is_mempool_loaded{false};
 /** Constant stuff for coinbase transactions we create: */
 CScript COINBASE_FLAGS;
 
-const std::string strMessageMagic = "Merdecoin Signed Message:\n";
+const std::string strMessageMagic = "Bitcoin Signed Message:\n";
 
 // Internal stuff
 namespace {
@@ -1153,23 +1153,14 @@ bool ReadRawBlockFromDisk(std::vector<uint8_t>& block, const CBlockIndex* pindex
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
-    CAmount nSubsidy; 
-    if (nHeight == 10 || nHeight == 50 || nHeight == 70 || nHeight == 90 || nHeight == 110 || nHeight == 130 || nHeight == 150 || nHeight == 170 || nHeight == 190 || nHeight == 210)  {
-        nSubsidy = 100000*COIN;   // premine 10x100000 coins
-    } else {
-        if (nHeight <= 250) {
-            nSubsidy = 10 * COIN ;  // small mining to carry out the transactions
-        } else {
-            int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
-            // Force block reward to zero when right shift is undefined.
-            if (halvings >= 128)
-                return 0;
-            CAmount nSubsidy = 100 * COIN;
-            // Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.
-            nSubsidy >>= halvings;
-        }
-    }
-    //printf("GetBlockSubsidy: height: %i - nSubsidy: %ld \n",nHeight, nSubsidy);
+    int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
+    // Force block reward to zero when right shift is undefined.
+    if (halvings >= 64)
+        return 0;
+
+    CAmount nSubsidy = 50 * COIN;
+    // Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.
+    nSubsidy >>= halvings;
     return nSubsidy;
 }
 
@@ -1686,7 +1677,7 @@ static bool WriteUndoDataForBlock(const CBlockUndo& blockundo, CValidationState&
 static CCheckQueue<CScriptCheck> scriptcheckqueue(128);
 
 void ThreadScriptCheck() {
-    RenameThread("merdecoin-scriptch");
+    RenameThread("bitcoin-scriptch");
     scriptcheckqueue.Thread();
 }
 
@@ -3168,18 +3159,12 @@ bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::P
 
 bool IsWitnessEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& params)
 {
-////////////////////////////////////////////////////////////////////
-    return true;
-    /////////////////////////////////////////////////////////
     LOCK(cs_main);
     return (VersionBitsState(pindexPrev, params, Consensus::DEPLOYMENT_SEGWIT, versionbitscache) == ThresholdState::ACTIVE);
 }
 
 bool IsNullDummyEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& params)
 {
-////////////////////////////////////////////////////////////////////
-    return true;
-    /////////////////////////////////////////////////////////
     LOCK(cs_main);
     return (VersionBitsState(pindexPrev, params, Consensus::DEPLOYMENT_SEGWIT, versionbitscache) == ThresholdState::ACTIVE);
 }
@@ -3322,8 +3307,7 @@ static bool ContextualCheckBlock(const CBlock& block, CValidationState& state, c
         CScript expect = CScript() << nHeight;
         if (block.vtx[0]->vin[0].scriptSig.size() < expect.size() ||
             !std::equal(expect.begin(), expect.end(), block.vtx[0]->vin[0].scriptSig.begin())) {
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            //return state.DoS(100, false, REJECT_INVALID, "bad-cb-height", false, "block height mismatch in coinbase");
+            return state.DoS(100, false, REJECT_INVALID, "bad-cb-height", false, "block height mismatch in coinbase");
         }
     }
 

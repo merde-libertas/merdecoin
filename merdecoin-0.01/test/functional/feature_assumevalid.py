@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2019 The Merdecoin Core developers
+# Copyright (c) 2014-2018 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test logic for skipping signature validation on old blocks.
 
 Test logic for skipping signature validation on blocks which we've assumed
-valid (https://github.com/merdecoin/merdecoin/pull/9484)
+valid (https://github.com/bitcoin/bitcoin/pull/9484)
 
 We build a chain that includes and invalid signature for one of the
 transactions:
@@ -40,11 +40,11 @@ from test_framework.messages import (
     CTxIn,
     CTxOut,
     msg_block,
-    msg_headers,
+    msg_headers
 )
 from test_framework.mininode import P2PInterface
 from test_framework.script import (CScript, OP_TRUE)
-from test_framework.test_framework import MerdecoinTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import assert_equal
 
 class BaseNode(P2PInterface):
@@ -53,7 +53,7 @@ class BaseNode(P2PInterface):
         headers_message.headers = [CBlockHeader(b) for b in new_blocks]
         self.send_message(headers_message)
 
-class AssumeValidTest(MerdecoinTestFramework):
+class AssumeValidTest(BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 3
@@ -72,7 +72,7 @@ class AssumeValidTest(MerdecoinTestFramework):
                 break
             try:
                 p2p_conn.send_message(msg_block(self.blocks[i]))
-            except IOError:
+            except IOError as e:
                 assert not p2p_conn.is_connected
                 break
 
@@ -180,7 +180,7 @@ class AssumeValidTest(MerdecoinTestFramework):
         for i in range(2202):
             p2p1.send_message(msg_block(self.blocks[i]))
         # Syncing 2200 blocks can take a while on slow systems. Give it plenty of time to sync.
-        p2p1.sync_with_ping(960)
+        p2p1.sync_with_ping(200)
         assert_equal(self.nodes[1].getblock(self.nodes[1].getbestblockhash())['height'], 2202)
 
         # Send blocks to node2. Block 102 will be rejected.

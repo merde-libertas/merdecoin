@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2018 The Merdecoin Core developers
+// Copyright (c) 2011-2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -16,6 +16,7 @@ class SendCoinsRecipient;
 
 namespace interfaces {
 class Node;
+class PendingWalletTx;
 }
 
 /** Data model for a walletmodel transaction. */
@@ -26,7 +27,7 @@ public:
 
     QList<SendCoinsRecipient> getRecipients() const;
 
-    CTransactionRef& getWtx();
+    std::unique_ptr<interfaces::PendingWalletTx>& getWtx();
     unsigned int getTransactionSize();
 
     void setTransactionFee(const CAmount& newFee);
@@ -38,7 +39,7 @@ public:
 
 private:
     QList<SendCoinsRecipient> recipients;
-    CTransactionRef wtx;
+    std::unique_ptr<interfaces::PendingWalletTx> wtx;
     CAmount fee;
 };
 

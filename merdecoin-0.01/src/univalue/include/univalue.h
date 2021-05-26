@@ -1,5 +1,5 @@
 // Copyright 2014 BitPay Inc.
-// Copyright 2015 Merdecoin Core Developers
+// Copyright 2015 Bitcoin Core Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -47,6 +47,7 @@ public:
         std::string s(val_);
         setStr(s);
     }
+    ~UniValue() {}
 
     void clear();
 

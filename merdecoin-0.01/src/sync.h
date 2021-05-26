@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2018 The Merdecoin Core developers
+// Copyright (c) 2009-2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -198,16 +198,6 @@ using DebugLock = UniqueLock<typename std::remove_reference<typename std::remove
         LeaveCritical();           \
     }
 
-//! Run code while locking a mutex.
-//!
-//! Examples:
-//!
-//!   WITH_LOCK(cs, shared_val = shared_val + 1);
-//!
-//!   int val = WITH_LOCK(cs, return shared_val);
-//!
-#define WITH_LOCK(cs, code) [&] { LOCK(cs); code; }()
-
 class CSemaphore
 {
 private:
@@ -302,20 +292,6 @@ public:
     {
         return fHaveGrant;
     }
-};
-
-// Utility class for indicating to compiler thread analysis that a mutex is
-// locked (when it couldn't be determined otherwise).
-struct SCOPED_LOCKABLE LockAssertion
-{
-    template <typename Mutex>
-    explicit LockAssertion(Mutex& mutex) EXCLUSIVE_LOCK_FUNCTION(mutex)
-    {
-#ifdef DEBUG_LOCKORDER
-        AssertLockHeld(mutex);
-#endif
-    }
-    ~LockAssertion() UNLOCK_FUNCTION() {}
 };
 
 #endif // BITCOIN_SYNC_H

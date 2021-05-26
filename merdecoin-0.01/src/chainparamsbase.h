@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2018 The Merdecoin Core developers
+// Copyright (c) 2014-2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,10 +7,11 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 /**
- * CBaseChainParams defines the base parameters (shared between merdecoin-cli and merdecoind)
- * of a given instance of the Merdecoin system.
+ * CBaseChainParams defines the base parameters (shared between bitcoin-cli and bitcoind)
+ * of a given instance of the Bitcoin system.
  */
 class CBaseChainParams
 {

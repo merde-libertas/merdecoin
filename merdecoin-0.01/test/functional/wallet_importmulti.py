@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2019 The Merdecoin Core developers
+# Copyright (c) 2014-2018 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the importmulti RPC.
@@ -19,12 +19,13 @@ from test_framework.script import (
     CScript,
     OP_NOP,
 )
-from test_framework.test_framework import MerdecoinTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.descriptors import descsum_create
 from test_framework.util import (
     assert_equal,
     assert_greater_than,
     assert_raises_rpc_error,
+    bytes_to_hex_str,
 )
 from test_framework.wallet_util import (
     get_key,
@@ -32,7 +33,7 @@ from test_framework.wallet_util import (
     test_address,
 )
 
-class ImportMultiTest(MerdecoinTestFramework):
+class ImportMultiTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 2
         self.extra_args = [["-addresstype=legacy"], ["-addresstype=legacy"]]
@@ -44,10 +45,8 @@ class ImportMultiTest(MerdecoinTestFramework):
     def setup_network(self):
         self.setup_nodes()
 
-    def test_importmulti(self, req, success, error_code=None, error_message=None, warnings=None):
+    def test_importmulti(self, req, success, error_code=None, error_message=None, warnings=[]):
         """Run importmulti and assert success"""
-        if warnings is None:
-            warnings = []
         result = self.nodes[1].importmulti([req])
         observed_warnings = []
         if 'warnings' in result[0]:
@@ -79,7 +78,7 @@ class ImportMultiTest(MerdecoinTestFramework):
 
         # RPC importmulti -----------------------------------------------
 
-        # Merdecoin Address (implicit non-internal)
+        # Bitcoin Address (implicit non-internal)
         self.log.info("Should import an address")
         key = get_key(self.nodes[0])
         self.test_importmulti({"scriptPubKey": {"address": key.p2pkh_addr},
@@ -128,7 +127,7 @@ class ImportMultiTest(MerdecoinTestFramework):
 
         # Nonstandard scriptPubKey + !internal
         self.log.info("Should not import a nonstandard scriptPubKey without internal flag")
-        nonstandardScriptPubKey = key.p2pkh_script + CScript([OP_NOP]).hex()
+        nonstandardScriptPubKey = key.p2pkh_script + bytes_to_hex_str(CScript([OP_NOP]))
         key = get_key(self.nodes[0])
         self.test_importmulti({"scriptPubKey": nonstandardScriptPubKey,
                                "timestamp": "now"},
@@ -554,7 +553,7 @@ class ImportMultiTest(MerdecoinTestFramework):
                                "keys": [key.privkey]},
                               success=False,
                               error_code=-5,
-                              error_message="Missing checksum")
+                              error_message="Descriptor is invalid")
 
         # Test importing of a P2SH-P2WPKH address via descriptor + private key
         key = get_key(self.nodes[0])
@@ -573,7 +572,6 @@ class ImportMultiTest(MerdecoinTestFramework):
         # Test ranged descriptor fails if range is not specified
         xpriv = "tprv8ZgxMBicQKsPeuVhWwi6wuMQGfPKi9Li5GtX35jVNknACgqe3CY4g5xgkfDDJcmtF7o1QnxWDRYw4H5P26PXq7sbcUkEqeR4fg3Kxp2tigg"
         addresses = ["2N7yv4p8G8yEaPddJxY41kPihnWvs39qCMf", "2MsHxyb2JS3pAySeNUsJ7mNnurtpeenDzLA"] # hdkeypath=m/0'/0'/0' and 1'
-        addresses += ["bcrt1qrd3n235cj2czsfmsuvqqpr3lu6lg0ju7scl8gn", "bcrt1qfqeppuvj0ww98r6qghmdkj70tv8qpchehegrg8"] # wpkh subscripts corresponding to the above addresses
         desc = "sh(wpkh(" + xpriv + "/0'/0'/*'" + "))"
         self.log.info("Ranged descriptor import should fail without a specified range")
         self.test_importmulti({"desc": descsum_create(desc),
@@ -582,49 +580,17 @@ class ImportMultiTest(MerdecoinTestFramework):
                               error_code=-8,
                               error_message='Descriptor is ranged, please specify the range')
 
-        # Test importing of a ranged descriptor with xpriv
+        # Test importing of a ranged descriptor without keys
         self.log.info("Should import the ranged descriptor with specified range as solvable")
         self.test_importmulti({"desc": descsum_create(desc),
                                "timestamp": "now",
                                "range": 1},
-                              success=True)
+                              success=True,
+                              warnings=["Some private keys are missing, outputs will be considered watchonly. If this is intentional, specify the watchonly flag."])
         for address in addresses:
             test_address(self.nodes[1],
-                         address,
-                         solvable=True,
-                         ismine=True)
-
-        self.test_importmulti({"desc": descsum_create(desc), "timestamp": "now", "range": -1},
-                              success=False, error_code=-8, error_message='End of range is too high')
-
-        self.test_importmulti({"desc": descsum_create(desc), "timestamp": "now", "range": [-1, 10]},
-                              success=False, error_code=-8, error_message='Range should be greater or equal than 0')
-
-        self.test_importmulti({"desc": descsum_create(desc), "timestamp": "now", "range": [(2 << 31 + 1) - 1000000, (2 << 31 + 1)]},
-                              success=False, error_code=-8, error_message='End of range is too high')
-
-        self.test_importmulti({"desc": descsum_create(desc), "timestamp": "now", "range": [2, 1]},
-                              success=False, error_code=-8, error_message='Range specified as [begin,end] must not have begin after end')
-
-        self.test_importmulti({"desc": descsum_create(desc), "timestamp": "now", "range": [0, 1000001]},
-                              success=False, error_code=-8, error_message='Range is too large')
-
-        # Test importing a descriptor containing a WIF private key
-        wif_priv = "cTe1f5rdT8A8DFgVWTjyPwACsDPJM9ff4QngFxUixCSvvbg1x6sh"
-        address = "2MuhcG52uHPknxDgmGPsV18jSHFBnnRgjPg"
-        desc = "sh(wpkh(" + wif_priv + "))"
-        self.log.info("Should import a descriptor with a WIF private key as spendable")
-        self.test_importmulti({"desc": descsum_create(desc),
-                               "timestamp": "now"},
-                              success=True)
-        test_address(self.nodes[1],
-                     address,
-                     solvable=True,
-                     ismine=True)
-
-        # dump the private key to ensure it matches what was imported
-        privkey = self.nodes[1].dumpprivkey(address)
-        assert_equal(privkey, wif_priv)
+                         key.p2sh_p2wpkh_addr,
+                         solvable=True)
 
         # Test importing of a P2PKH address via descriptor
         key = get_key(self.nodes[0])
@@ -795,7 +761,7 @@ class ImportMultiTest(MerdecoinTestFramework):
         assert_equal(addr2, newaddr2)
 
         # Import a multisig and make sure the keys don't go into the keypool
-        self.log.info('Imported scripts with pubkeys should not have their pubkeys go into the keypool')
+        self.log.info('Imported scripts with pubkeys shoud not have their pubkeys go into the keypool')
         addr1 = self.nodes[0].getnewaddress()
         addr2 = self.nodes[0].getnewaddress()
         pub1 = self.nodes[0].getaddressinfo(addr1)['pubkey']

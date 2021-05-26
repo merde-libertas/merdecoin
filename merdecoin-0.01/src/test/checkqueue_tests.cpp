@@ -1,13 +1,12 @@
-// Copyright (c) 2012-2019 The Merdecoin Core developers
+// Copyright (c) 2012-2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <util/memory.h>
 #include <util/system.h>
 #include <util/time.h>
 #include <validation.h>
 
-#include <test/setup_common.h>
+#include <test/test_bitcoin.h>
 #include <checkqueue.h>
 #include <boost/test/unit_test.hpp>
 #include <boost/thread.hpp>
@@ -18,7 +17,8 @@
 #include <condition_variable>
 
 #include <unordered_set>
-#include <utility>
+#include <memory>
+#include <random.h>
 
 // BasicTestingSetup not sufficient because nScriptCheckThreads is not set
 // otherwise.
@@ -167,6 +167,7 @@ static void Correct_Queue_range(std::vector<size_t> range)
         BOOST_REQUIRE(control.Wait());
         if (FakeCheckCheckCompletion::n_calls != i) {
             BOOST_REQUIRE_EQUAL(FakeCheckCheckCompletion::n_calls, i);
+            BOOST_TEST_MESSAGE("Failure on trial " << i << " expected, got " << FakeCheckCheckCompletion::n_calls);
         }
     }
     tg.interrupt_all();

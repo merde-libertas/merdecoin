@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2018 The Merdecoin Core developers
+// Copyright (c) 2015-2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -147,5 +147,7 @@ public:
 private:
     struct event* ev;
 };
+
+std::string urlDecode(const std::string &urlEncoded);
 
 #endif // BITCOIN_HTTPSERVER_H

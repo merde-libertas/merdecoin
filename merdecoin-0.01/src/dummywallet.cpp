@@ -1,19 +1,15 @@
-// Copyright (c) 2018 The Merdecoin Core developers
+// Copyright (c) 2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <stdio.h>
 #include <util/system.h>
 #include <walletinitinterface.h>
-#include <support/allocators/secure.h>
 
 class CWallet;
-enum class WalletCreationStatus;
 
 namespace interfaces {
 class Chain;
-class Handler;
-class Wallet;
 }
 
 class DummyWalletInit : public WalletInitInterface {
@@ -27,7 +23,7 @@ public:
 
 void DummyWalletInit::AddWalletOptions() const
 {
-    gArgs.AddHiddenArgs({
+    std::vector<std::string> opts = {
         "-addresstype",
         "-avoidpartialspends",
         "-changetype",
@@ -35,7 +31,6 @@ void DummyWalletInit::AddWalletOptions() const
         "-discardfee=<amt>",
         "-fallbackfee=<amt>",
         "-keypool=<n>",
-        "-maxtxfee=<amt>",
         "-mintxfee=<amt>",
         "-paytxfee=<amt>",
         "-rescan",
@@ -53,7 +48,8 @@ void DummyWalletInit::AddWalletOptions() const
         "-flushwallet",
         "-privdb",
         "-walletrejectlongchains",
-    });
+    };
+    gArgs.AddHiddenArgs(opts);
 }
 
 const WalletInitInterface& g_wallet_init_interface = DummyWalletInit();
@@ -78,18 +74,9 @@ std::shared_ptr<CWallet> LoadWallet(interfaces::Chain& chain, const std::string&
     throw std::logic_error("Wallet function called in non-wallet build.");
 }
 
-WalletCreationStatus CreateWallet(interfaces::Chain& chain, const SecureString& passphrase, uint64_t wallet_creation_flags, const std::string& name, std::string& error, std::string& warning, std::shared_ptr<CWallet>& result)
-{
-    throw std::logic_error("Wallet function called in non-wallet build.");
-}
-
-using LoadWalletFn = std::function<void(std::unique_ptr<interfaces::Wallet> wallet)>;
-std::unique_ptr<interfaces::Handler> HandleLoadWallet(LoadWalletFn load_wallet)
-{
-    throw std::logic_error("Wallet function called in non-wallet build.");
-}
-
 namespace interfaces {
+
+class Wallet;
 
 std::unique_ptr<Wallet> MakeWallet(const std::shared_ptr<CWallet>& wallet)
 {

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2014-2019 The Merdecoin Core developers
+# Copyright (c) 2014-2018 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test the REST API."""
@@ -14,7 +14,7 @@ from struct import pack, unpack
 import http.client
 import urllib.parse
 
-from test_framework.test_framework import MerdecoinTestFramework
+from test_framework.test_framework import BitcoinTestFramework
 from test_framework.util import (
     assert_equal,
     assert_greater_than,
@@ -39,7 +39,7 @@ def filter_output_indices_by_value(vouts, value):
         if vout['value'] == value:
             yield vout['n']
 
-class RESTTest (MerdecoinTestFramework):
+class RESTTest (BitcoinTestFramework):
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 2
@@ -76,7 +76,7 @@ class RESTTest (MerdecoinTestFramework):
 
     def run_test(self):
         self.url = urllib.parse.urlparse(self.nodes[0].url)
-        self.log.info("Mine blocks and send Merdecoin to node 1")
+        self.log.info("Mine blocks and send Bitcoin to node 1")
 
         # Random address so node1's balance doesn't increase
         not_related_address = "2MxqoHEdNQTyYeX1mHcbrrpzgojbosTpCvJ"
@@ -152,7 +152,7 @@ class RESTTest (MerdecoinTestFramework):
         bin_response = self.test_rest_request("/getutxos", http_method='POST', req_type=ReqType.BIN, body=bin_request, ret_type=RetType.BYTES)
         output = BytesIO(bin_response)
         chain_height, = unpack("i", output.read(4))
-        response_hash = output.read(32)[::-1].hex()
+        response_hash = binascii.hexlify(output.read(32)[::-1]).decode('ascii')
 
         assert_equal(bb_hash, response_hash)  # check if getutxo's chaintip during calculation was fine
         assert_equal(chain_height, 102)  # chain height must be 102
@@ -252,7 +252,7 @@ class RESTTest (MerdecoinTestFramework):
         resp_hex = self.test_rest_request("/blockhashbyheight/{}".format(block_json_obj['height']), req_type=ReqType.HEX, ret_type=RetType.OBJ)
         assert_equal(resp_hex.read().decode('utf-8').rstrip(), bb_hash)
         resp_bytes = self.test_rest_request("/blockhashbyheight/{}".format(block_json_obj['height']), req_type=ReqType.BIN, ret_type=RetType.BYTES)
-        blockhash = resp_bytes[::-1].hex()
+        blockhash = binascii.hexlify(resp_bytes[::-1]).decode('utf-8')
         assert_equal(blockhash, bb_hash)
 
         # Check invalid blockhashbyheight requests

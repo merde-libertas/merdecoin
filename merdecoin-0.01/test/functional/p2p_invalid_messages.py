@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
-# Copyright (c) 2015-2019 The Merdecoin Core developers
+# Copyright (c) 2015-2019 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 """Test node responses to invalid network messages."""
-import asyncio
 import os
 import struct
-import sys
 
 from test_framework import messages
-from test_framework.mininode import P2PDataStore, NetworkThread
-from test_framework.test_framework import MerdecoinTestFramework
+from test_framework.mininode import P2PDataStore
+from test_framework.test_framework import BitcoinTestFramework
 
 
 class msg_unrecognized:
@@ -28,7 +26,7 @@ class msg_unrecognized:
         return "{}(data={})".format(self.command, self.str_data)
 
 
-class InvalidMessagesTest(MerdecoinTestFramework):
+class InvalidMessagesTest(BitcoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 1
         self.setup_clean_chain = True
@@ -85,7 +83,7 @@ class InvalidMessagesTest(MerdecoinTestFramework):
 
             # Peer 1, despite serving up a bunch of nonsense, should still be connected.
             self.log.info("Waiting for node to drop junk messages.")
-            node.p2p.sync_with_ping(timeout=320)
+            node.p2p.sync_with_ping(timeout=120)
             assert node.p2p.is_connected
 
         #
@@ -93,25 +91,18 @@ class InvalidMessagesTest(MerdecoinTestFramework):
         #
         # Send an oversized message, ensure we're disconnected.
         #
-        # Under macOS this test is skipped due to an unexpected error code
-        # returned from the closing socket which python/asyncio does not
-        # yet know how to handle.
-        #
-        if sys.platform != 'darwin':
-            msg_over_size = msg_unrecognized(str_data="b" * (valid_data_limit + 1))
-            assert len(msg_over_size.serialize()) == (msg_limit + 1)
+        msg_over_size = msg_unrecognized(str_data="b" * (valid_data_limit + 1))
+        assert len(msg_over_size.serialize()) == (msg_limit + 1)
 
-            with node.assert_debug_log(["Oversized message from peer=4, disconnecting"]):
-                # An unknown message type (or *any* message type) over
-                # MAX_PROTOCOL_MESSAGE_LENGTH should result in a disconnect.
-                node.p2p.send_message(msg_over_size)
-                node.p2p.wait_for_disconnect(timeout=4)
+        with node.assert_debug_log(["Oversized message from peer=4, disconnecting"]):
+            # An unknown message type (or *any* message type) over
+            # MAX_PROTOCOL_MESSAGE_LENGTH should result in a disconnect.
+            node.p2p.send_message(msg_over_size)
+            node.p2p.wait_for_disconnect(timeout=4)
 
-            node.disconnect_p2ps()
-            conn = node.add_p2p_connection(P2PDataStore())
-            conn.wait_for_verack()
-        else:
-            self.log.info("Skipping test p2p_invalid_messages/1 (oversized message) under macOS")
+        node.disconnect_p2ps()
+        conn = node.add_p2p_connection(P2PDataStore())
+        conn.wait_for_verack()
 
         #
         # 2.
@@ -152,15 +143,8 @@ class InvalidMessagesTest(MerdecoinTestFramework):
 
     def test_magic_bytes(self):
         conn = self.nodes[0].add_p2p_connection(P2PDataStore())
-
-        def swap_magic_bytes():
-            conn._on_data = lambda: None  # Need to ignore all incoming messages from now, since they come with "invalid" magic bytes
-            conn.magic_bytes = b'\x00\x11\x22\x32'
-
-        # Call .result() to block until the atomic swap is complete, otherwise
-        # we might run into races later on
-        asyncio.run_coroutine_threadsafe(asyncio.coroutine(swap_magic_bytes)(), NetworkThread.network_event_loop).result()
-
+        conn._on_data = lambda: None  # Need to ignore all incoming messages from now, since they come with "invalid" magic bytes
+        conn.magic_bytes = b'\x00\x11\x22\x32'
         with self.nodes[0].assert_debug_log(['PROCESSMESSAGE: INVALID MESSAGESTART ping']):
             conn.send_message(messages.msg_ping(nonce=0xff))
             conn.wait_for_disconnect(timeout=1)

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2018 The Merdecoin Core developers
+// Copyright (c) 2015-2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -14,7 +14,6 @@
 #include <cstddef>
 #include <iterator>
 #include <type_traits>
-#include <utility>
 
 #pragma pack(push, 1)
 /** Implements a drop-in replacement for std::vector<T> which stores up to N
@@ -148,14 +147,14 @@ public:
     };
 
 private:
-    size_type _size = 0;
+    size_type _size;
     union direct_or_indirect {
         char direct[sizeof(T) * N];
         struct {
             size_type capacity;
             char* indirect;
         };
-    } _union = {};
+    } _union;
 
     T* direct_ptr(difference_type pos) { return reinterpret_cast<T*>(_union.direct) + pos; }
     const T* direct_ptr(difference_type pos) const { return reinterpret_cast<const T*>(_union.direct) + pos; }
@@ -231,34 +230,34 @@ public:
         fill(item_ptr(0), first, last);
     }
 
-    prevector() {}
+    prevector() : _size(0), _union{{}} {}
 
-    explicit prevector(size_type n) {
+    explicit prevector(size_type n) : prevector() {
         resize(n);
     }
 
-    explicit prevector(size_type n, const T& val) {
+    explicit prevector(size_type n, const T& val) : prevector() {
         change_capacity(n);
         _size += n;
         fill(item_ptr(0), n, val);
     }
 
     template<typename InputIterator>
-    prevector(InputIterator first, InputIterator last) {
+    prevector(InputIterator first, InputIterator last) : prevector() {
         size_type n = last - first;
         change_capacity(n);
         _size += n;
         fill(item_ptr(0), first, last);
     }
 
-    prevector(const prevector<N, T, Size, Diff>& other) {
+    prevector(const prevector<N, T, Size, Diff>& other) : prevector() {
         size_type n = other.size();
         change_capacity(n);
         _size += n;
         fill(item_ptr(0), other.begin(),  other.end());
     }
 
-    prevector(prevector<N, T, Size, Diff>&& other) {
+    prevector(prevector<N, T, Size, Diff>&& other) : prevector() {
         swap(other);
     }
 
@@ -377,21 +376,6 @@ public:
         memmove(ptr + count, ptr, (size() - p) * sizeof(T));
         _size += count;
         fill(ptr, first, last);
-    }
-
-    inline void resize_uninitialized(size_type new_size) {
-        // resize_uninitialized changes the size of the prevector but does not initialize it.
-        // If size < new_size, the added elements must be initialized explicitly.
-        if (capacity() < new_size) {
-            change_capacity(new_size);
-            _size += new_size - size();
-            return;
-        }
-        if (new_size < size()) {
-            erase(item_ptr(new_size), end());
-        } else {
-            _size += new_size - size();
-        }
     }
 
     iterator erase(iterator pos) {

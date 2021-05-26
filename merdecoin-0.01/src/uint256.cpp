@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2018 The Merdecoin Core developers
+// Copyright (c) 2009-2018 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -37,15 +37,16 @@ void base_blob<BITS>::SetHex(const char* psz)
         psz += 2;
 
     // hex string to uint
-    size_t digits = 0;
-    while (::HexDigit(psz[digits]) != -1)
-        digits++;
+    const char* pbegin = psz;
+    while (::HexDigit(*psz) != -1)
+        psz++;
+    psz--;
     unsigned char* p1 = (unsigned char*)data;
     unsigned char* pend = p1 + WIDTH;
-    while (digits > 0 && p1 < pend) {
-        *p1 = ::HexDigit(psz[--digits]);
-        if (digits > 0) {
-            *p1 |= ((unsigned char)::HexDigit(psz[--digits]) << 4);
+    while (psz >= pbegin && p1 < pend) {
+        *p1 = ::HexDigit(*psz--);
+        if (psz >= pbegin) {
+            *p1 |= ((unsigned char)::HexDigit(*psz--) << 4);
             p1++;
         }
     }

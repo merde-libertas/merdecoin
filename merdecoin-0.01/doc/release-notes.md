@@ -1,112 +1,76 @@
-0.19.2 Release Notes
-===============================
+Bitcoin Core version 0.18.x is now available from:
 
-Merdecoin Core version 0.19.2 is now available from:
+  <https://bitcoincore.org/bin/bitcoin-core-0.18.x/>
 
-  <https://merdecoincore.org/bin/merdecoin-core-0.19.2/>
-
-This minor release includes various bug fixes and performance
-improvements, as well as updated translations.
+This is a new minor version release, including new features, various bug
+fixes and performance improvements, as well as updated translations.
 
 Please report bugs using the issue tracker at GitHub:
 
-  <https://github.com/merdecoin/merdecoin/issues>
+  <https://github.com/bitcoin/bitcoin/issues>
 
 To receive security and update notifications, please subscribe to:
 
-  <https://merdecoincore.org/en/list/announcements/join/>
+  <https://bitcoincore.org/en/list/announcements/join/>
 
 How to Upgrade
 ==============
 
-If you are running an older version, shut it down. Wait until it has completely
-shut down (which might take a few minutes for older versions), then run the
-installer (on Windows) or just copy over `/Applications/Merdecoin-Qt` (on Mac)
-or `merdecoind`/`merdecoin-qt` (on Linux).
+If you are running an older version, shut it down. Wait until it has
+completely shut down (which might take a few minutes for older
+versions), then run the installer (on Windows) or just copy over
+`/Applications/Bitcoin-Qt` (on Mac) or `bitcoind`/`bitcoin-qt` (on
+Linux).
 
-Upgrading directly from a version of Merdecoin Core that has reached its EOL is
-possible, but it might take some time if the datadir needs to be migrated. Old
-wallet versions of Merdecoin Core are generally supported.
+The first time you run version 0.15.0 or newer, your chainstate database
+will be converted to a new format, which will take anywhere from a few
+minutes to half an hour, depending on the speed of your machine.
+
+Note that the block database format also changed in version 0.8.0 and
+there is no automatic upgrade code from before version 0.8 to version
+0.15.0 or later. Upgrading directly from 0.7.x and earlier without
+redownloading the blockchain is not supported.  However, as usual, old
+wallet versions are still supported.
 
 Compatibility
 ==============
 
-Merdecoin Core is supported and extensively tested on operating systems using
-the Linux kernel, macOS 10.10+, and Windows 7 and newer. It is not recommended
-to use Merdecoin Core on unsupported systems.
+Bitcoin Core is supported and extensively tested on operating systems
+using the Linux kernel, macOS 10.10+, and Windows 7 and newer. It is not
+recommended to use Bitcoin Core on unsupported systems.
 
-Merdecoin Core should also work on most other Unix-like systems but is not
+Bitcoin Core should also work on most other Unix-like systems but is not
 as frequently tested on them.
 
-From Merdecoin Core 0.17.0 onwards, macOS versions earlier than 10.10 are no
-longer supported, as Merdecoin Core is now built using Qt 5.9.x which requires
-macOS 10.10+. Additionally, Merdecoin Core does not yet change appearance when
+From 0.17.0 onwards, macOS <10.10 is no longer supported. 0.17.0 is
+built using Qt 5.9.x, which doesn't support versions of macOS older than
+10.10. Additionally, Bitcoin Core does not yet change appearance when
 macOS "dark mode" is activated.
 
-In addition to previously supported CPU platforms, this release's pre-compiled
-distribution provides binaries for the RISC-V platform.
+Known issues
+============
 
-0.19.2 change log
+Wallet GUI
+----------
+
+For advanced users who have both (1) enabled coin control features, and
+(2) are using multiple wallets loaded at the same time: The coin control
+input selection dialog can erroneously retain wrong-wallet state when
+switching wallets using the dropdown menu. For now, it is recommended
+not to use coin control features with multiple wallets loaded.
+
+Notable changes
+===============
+
+
+0.18.x change log
 =================
 
-### Policy
-- #19620 Add txids with non-standard inputs to reject filter (sdaftuar)
-
-### Mining
-- #17946 Fix GBT: Restore "!segwit" and "csv" to "rules" key (luke-jr)
-
-### RPC and other APIs
-- #19836 Properly deserialize txs with witness before signing (MarcoFalke)
-
-### GUI
-- #18123 Fix race in WalletModel::pollBalanceChanged (ryanofsky)
-- #18160 Avoid Wallet::GetBalance in WalletModel::pollBalanceChanged (promag)
-- #19097 Add missing QPainterPath include (achow101)
-
-### Build system
-- #18004 don't embed a build-id when building libdmg-hfsplus (fanquake)
-- #18425 releases: Update with new Windows code signing certificate (achow101)
-- #18676 Check libevent minimum version in configure script (hebasto)
-- #19536 qt, build: Fix QFileDialog for static builds (hebasto)
-- #20142 build: set minimum required Boost to 1.48.0 (fanquake)
-
-### Tests and QA
-- #18001 Updated appveyor job to checkout a specific vcpkg commit ID (sipsorcery)
-- #19444 Remove cached directories and associated script blocks from appveyor config (sipsorcery)
-- #18640 appveyor: Remove clcache (MarcoFalke)
-- #20095 ci: Bump vcpkg commit id to get new msys mirror list (sipsorcery)
-
-### Miscellaneous
-- #19612 lint: fix shellcheck URL in CI install (fanquake)
-- #18284 scheduler: Workaround negative nsecs bug in boost's `wait_until` (luke-jr)
-- #19194 util: Don't reference errno when pthread fails (miztake)
-
-### Documentation
-- #19777 Correct description for getblockstats's txs field (shesek)
-
-### Refactoring
-- #20141 Avoid the use of abs64 in timedata (sipa)
 
 Credits
 =======
 
 Thanks to everyone who directly contributed to this release:
 
-- Aaron Clauson
-- Andrew Chow
-- fanquake
-- Gregory Sanders
-- Hennadii Stepanov
-- Jonas Schnelli
-- João Barbosa
-- Luke Dashjr
-- MarcoFalke
-- MIZUTA Takeshi
-- Nadav Ivgi
-- Pieter Wuille
-- Russell Yanofsky
-- Suhas Daftuar
-- Wladimir J. van der Laan
 
-As well as to everyone that helped with translations on
-[Transifex](https://www.transifex.com/merdecoin/merdecoin/).
+As well as everyone that helped translating on [Transifex](https://www.transifex.com/projects/p/bitcoin/).
