@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include <config/bitcoin-config.h>
+#include <config/merdecoin-config.h>
 #endif
 
 #include <fs.h>
@@ -126,7 +126,7 @@ Intro::Intro(QWidget *parent, uint64_t blockchain_size, uint64_t chain_state_siz
         .arg(PACKAGE_NAME)
         .arg(m_blockchain_size)
         .arg(2009)
-        .arg(tr("Bitcoin"))
+        .arg(tr("Merdecoin"))
     );
     ui->lblExplanation2->setText(ui->lblExplanation2->text().arg(PACKAGE_NAME));
 
@@ -209,7 +209,7 @@ bool Intro::pickDataDirectory(interfaces::Node& node)
         /* If current default data directory does not exist, let the user choose one */
         Intro intro(0, node.getAssumedBlockchainSize(), node.getAssumedChainStateSize());
         intro.setDataDirectory(dataDir);
-        intro.setWindowIcon(QIcon(":icons/bitcoin"));
+        intro.setWindowIcon(QIcon(":icons/merdecoin"));
 
         while(true)
         {
@@ -236,8 +236,8 @@ bool Intro::pickDataDirectory(interfaces::Node& node)
         settings.setValue("fReset", false);
     }
     /* Only override -datadir if different from the default, to make it possible to
-     * override -datadir in the bitcoin.conf file in the default data directory
-     * (to be consistent with bitcoind behavior)
+     * override -datadir in the merdecoin.conf file in the default data directory
+     * (to be consistent with merdecoind behavior)
      */
     if(dataDir != getDefaultDataDirectory()) {
         node.softSetArg("-datadir", GUIUtil::qstringToBoostPath(dataDir).string()); // use OS locale for path setting

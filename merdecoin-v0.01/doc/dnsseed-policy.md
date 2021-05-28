@@ -1,7 +1,7 @@
 Expectations for DNS Seed operators
 ====================================
 
-Bitcoin Core attempts to minimize the level of trust in DNS seeds,
+Merdecoin Core attempts to minimize the level of trust in DNS seeds,
 but DNS seeds still pose a small amount of risk for the network.
 As such, DNS seeds must be run by entities which have some minimum
 level of trust within the Merdecoin community.
@@ -26,7 +26,7 @@ urgent technical necessity and disclosed.
 3. The results may not be served with a DNS TTL of less than one minute.
 
 4. Any logging of DNS queries should be only that which is necessary
-for the operation of the service or urgent health of the Bitcoin
+for the operation of the service or urgent health of the Merdecoin
 network and must not be retained longer than necessary nor disclosed
 to any third party.
 
@@ -42,13 +42,13 @@ details of their operating practices.
 related to the DNS seed operation.
 
 If these expectations cannot be satisfied the operator should
-discontinue providing services and contact the active Bitcoin
+discontinue providing services and contact the active Merdecoin
 Core development team as well as posting on
-[bitcoin-dev](https://lists.linuxfoundation.org/mailman/listinfo/bitcoin-dev).
+[merdecoin-dev](https://lists.linuxfoundation.org/mailman/listinfo/merdecoin-dev).
 
 Behavior outside of these expectations may be reasonable in some
 situations but should be discussed in public in advance.
 
 See also
 ----------
-- [bitcoin-seeder](https://github.com/sipa/bitcoin-seeder) is a reference implementation of a DNS seed.
+- [merdecoin-seeder](https://github.com/sipa/merdecoin-seeder) is a reference implementation of a DNS seed.

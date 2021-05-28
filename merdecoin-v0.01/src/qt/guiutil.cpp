@@ -4,8 +4,8 @@
 
 #include <qt/guiutil.h>
 
-#include <qt/bitcoinaddressvalidator.h>
-#include <qt/bitcoinunits.h>
+#include <qt/merdecoinaddressvalidator.h>
+#include <qt/merdecoinunits.h>
 #include <qt/qvalidatedlineedit.h>
 #include <qt/walletmodel.h>
 
@@ -107,14 +107,14 @@ void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent)
     // and this is the only place, where this address is supplied.
     widget->setPlaceholderText(QObject::tr("Enter a Merdecoin address (e.g. %1)").arg(
         QString::fromStdString(DummyAddress(Params()))));
-    widget->setValidator(new BitcoinAddressEntryValidator(parent));
-    widget->setCheckValidator(new BitcoinAddressCheckValidator(parent));
+    widget->setValidator(new MerdecoinAddressEntryValidator(parent));
+    widget->setCheckValidator(new MerdecoinAddressCheckValidator(parent));
 }
 
-bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
+bool parseMerdecoinURI(const QUrl &uri, SendCoinsRecipient *out)
 {
-    // return if URI is not valid or is no bitcoin: URI
-    if(!uri.isValid() || uri.scheme() != QString("bitcoin"))
+    // return if URI is not valid or is no merdecoin: URI
+    if(!uri.isValid() || uri.scheme() != QString("merdecoin"))
         return false;
 
     SendCoinsRecipient rv;
@@ -150,7 +150,7 @@ bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
         {
             if(!i->second.isEmpty())
             {
-                if(!BitcoinUnits::parse(BitcoinUnits::MRD, i->second, &rv.amount))
+                if(!MerdecoinUnits::parse(MerdecoinUnits::MRD, i->second, &rv.amount))
                 {
                     return false;
                 }
@@ -168,20 +168,20 @@ bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
     return true;
 }
 
-bool parseBitcoinURI(QString uri, SendCoinsRecipient *out)
+bool parseMerdecoinURI(QString uri, SendCoinsRecipient *out)
 {
     QUrl uriInstance(uri);
-    return parseBitcoinURI(uriInstance, out);
+    return parseMerdecoinURI(uriInstance, out);
 }
 
-QString formatBitcoinURI(const SendCoinsRecipient &info)
+QString formatMerdecoinURI(const SendCoinsRecipient &info)
 {
-    QString ret = QString("bitcoin:%1").arg(info.address);
+    QString ret = QString("merdecoin:%1").arg(info.address);
     int paramCount = 0;
 
     if (info.amount)
     {
-        ret += QString("?amount=%1").arg(BitcoinUnits::format(BitcoinUnits::MRD, info.amount, false, BitcoinUnits::separatorNever));
+        ret += QString("?amount=%1").arg(MerdecoinUnits::format(MerdecoinUnits::MRD, info.amount, false, MerdecoinUnits::separatorNever));
         paramCount++;
     }
 
@@ -380,7 +380,7 @@ void openDebugLogfile()
         QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathDebug)));
 }
 
-bool openBitcoinConf()
+bool openMerdecoinConf()
 {
     fs::path pathConfig = GetConfigFile(gArgs.GetArg("-conf", BITCOIN_CONF_FILENAME));
 
@@ -392,7 +392,7 @@ bool openBitcoinConf()
 
     configFile.close();
 
-    /* Open bitcoin.conf with the associated application */
+    /* Open merdecoin.conf with the associated application */
     bool res = QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathConfig)));
 #ifdef Q_OS_MAC
     // Workaround for macOS-specific behavior; see #15409.
@@ -548,7 +548,7 @@ fs::path static StartupShortcutPath()
 {
     std::string chain = gArgs.GetChainName();
     if (chain == CBaseChainParams::MAIN)
-        return GetSpecialFolderPath(CSIDL_STARTUP) / "Bitcoin.lnk";
+        return GetSpecialFolderPath(CSIDL_STARTUP) / "Merdecoin.lnk";
     if (chain == CBaseChainParams::TESTNET) // Remove this special case when CBaseChainParams::TESTNET = "testnet4"
         return GetSpecialFolderPath(CSIDL_STARTUP) / "Merdecoin (testnet).lnk";
     return GetSpecialFolderPath(CSIDL_STARTUP) / strprintf("Merdecoin (%s).lnk", chain);
@@ -556,7 +556,7 @@ fs::path static StartupShortcutPath()
 
 bool GetStartOnSystemStartup()
 {
-    // check for Bitcoin*.lnk
+    // check for Merdecoin*.lnk
     return fs::exists(StartupShortcutPath());
 }
 
@@ -631,8 +631,8 @@ fs::path static GetAutostartFilePath()
 {
     std::string chain = gArgs.GetChainName();
     if (chain == CBaseChainParams::MAIN)
-        return GetAutostartDir() / "bitcoin.desktop";
-    return GetAutostartDir() / strprintf("bitcoin-%s.lnk", chain);
+        return GetAutostartDir() / "merdecoin.desktop";
+    return GetAutostartDir() / strprintf("merdecoin-%s.lnk", chain);
 }
 
 bool GetStartOnSystemStartup()
@@ -672,13 +672,13 @@ bool SetStartOnSystemStartup(bool fAutoStart)
         if (!optionFile.good())
             return false;
         std::string chain = gArgs.GetChainName();
-        // Write a bitcoin.desktop file to the autostart directory:
+        // Write a merdecoin.desktop file to the autostart directory:
         optionFile << "[Desktop Entry]\n";
         optionFile << "Type=Application\n";
         if (chain == CBaseChainParams::MAIN)
-            optionFile << "Name=Bitcoin\n";
+            optionFile << "Name=Merdecoin\n";
         else
-            optionFile << strprintf("Name=Bitcoin (%s)\n", chain);
+            optionFile << strprintf("Name=Merdecoin (%s)\n", chain);
         optionFile << "Exec=" << pszExePath << strprintf(" -min -testnet=%d -regtest=%d\n", gArgs.GetBoolArg("-testnet", false), gArgs.GetBoolArg("-regtest", false));
         optionFile << "Terminal=false\n";
         optionFile << "Hidden=false\n";
@@ -697,7 +697,7 @@ LSSharedFileListItemRef findStartupItemInList(CFArrayRef listSnapshot, LSSharedF
         return nullptr;
     }
 
-    // loop through the list of startup items and try to find the bitcoin app
+    // loop through the list of startup items and try to find the merdecoin app
     for(int i = 0; i < CFArrayGetCount(listSnapshot); i++) {
         LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(listSnapshot, i);
         UInt32 resolutionFlags = kLSSharedFileListNoUserInteraction | kLSSharedFileListDoNotMountVolumes;
@@ -728,15 +728,15 @@ LSSharedFileListItemRef findStartupItemInList(CFArrayRef listSnapshot, LSSharedF
 
 bool GetStartOnSystemStartup()
 {
-    CFURLRef bitcoinAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
-    if (bitcoinAppUrl == nullptr) {
+    CFURLRef merdecoinAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+    if (merdecoinAppUrl == nullptr) {
         return false;
     }
 
     LSSharedFileListRef loginItems = LSSharedFileListCreate(nullptr, kLSSharedFileListSessionLoginItems, nullptr);
     CFArrayRef listSnapshot = LSSharedFileListCopySnapshot(loginItems, nullptr);
-    bool res = (findStartupItemInList(listSnapshot, loginItems, bitcoinAppUrl) != nullptr);
-    CFRelease(bitcoinAppUrl);
+    bool res = (findStartupItemInList(listSnapshot, loginItems, merdecoinAppUrl) != nullptr);
+    CFRelease(merdecoinAppUrl);
     CFRelease(loginItems);
     CFRelease(listSnapshot);
     return res;
@@ -744,25 +744,25 @@ bool GetStartOnSystemStartup()
 
 bool SetStartOnSystemStartup(bool fAutoStart)
 {
-    CFURLRef bitcoinAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
-    if (bitcoinAppUrl == nullptr) {
+    CFURLRef merdecoinAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+    if (merdecoinAppUrl == nullptr) {
         return false;
     }
 
     LSSharedFileListRef loginItems = LSSharedFileListCreate(nullptr, kLSSharedFileListSessionLoginItems, nullptr);
     CFArrayRef listSnapshot = LSSharedFileListCopySnapshot(loginItems, nullptr);
-    LSSharedFileListItemRef foundItem = findStartupItemInList(listSnapshot, loginItems, bitcoinAppUrl);
+    LSSharedFileListItemRef foundItem = findStartupItemInList(listSnapshot, loginItems, merdecoinAppUrl);
 
     if(fAutoStart && !foundItem) {
-        // add bitcoin app to startup item list
-        LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, nullptr, nullptr, bitcoinAppUrl, nullptr, nullptr);
+        // add merdecoin app to startup item list
+        LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, nullptr, nullptr, merdecoinAppUrl, nullptr, nullptr);
     }
     else if(!fAutoStart && foundItem) {
         // remove item
         LSSharedFileListItemRemove(loginItems, foundItem);
     }
 
-    CFRelease(bitcoinAppUrl);
+    CFRelease(merdecoinAppUrl);
     CFRelease(loginItems);
     CFRelease(listSnapshot);
     return true;

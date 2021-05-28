@@ -1,8 +1,8 @@
 <!-- This issue tracker is only for technical issues related to Merdecoin Core.
 
-General bitcoin questions and/or support requests are best directed to the Merdecoin StackExchange at https://bitcoin.stackexchange.com.
+General merdecoin questions and/or support requests are best directed to the Merdecoin StackExchange at https://merdecoin.stackexchange.com.
 
-For reporting security issues, please read instructions at https://bitcoincore.org/en/contact/.
+For reporting security issues, please read instructions at https://merdecoincore.org/en/contact/.
 
 If the node is "stuck" during sync or giving "block checksum mismatch" errors, please ensure your hardware is stable by running memtest and observe CPU temperature with a load-test tool such as linpack before creating an issue! -->
 

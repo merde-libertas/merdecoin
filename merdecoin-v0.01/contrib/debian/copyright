@@ -1,13 +1,13 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: Bitcoin
+Upstream-Name: Merdecoin
 Upstream-Contact: Satoshi Nakamoto <satoshin@gmx.com>
- irc://#bitcoin@freenode.net
-Source: https://github.com/bitcoin/bitcoin
+ irc://#merdecoin@freenode.net
+Source: https://github.com/merdecoin/merdecoin
 
 Files: *
 Copyright: 2009-2019, Merdecoin Core Developers
 License: Expat
-Comment: The Merdecoin Core Developers encompasses the current developers listed on bitcoin.org,
+Comment: The Merdecoin Core Developers encompasses the current developers listed on merdecoin.org,
          as well as the numerous contributors to the project.
 
 Files: debian/*
@@ -85,12 +85,12 @@ License: Expat
 Comment: Modifications of Stephen Hutchings' Typicons
 
 Files: src/qt/res/icons/about.png
-       src/qt/res/icons/bitcoin.*
-       share/pixmaps/bitcoin*
-       src/qt/res/src/bitcoin.svg
+       src/qt/res/icons/merdecoin.*
+       share/pixmaps/merdecoin*
+       src/qt/res/src/merdecoin.svg
 Copyright: Bitboy, Jonas Schnelli
 License: public-domain
-Comment: Site: https://bitcointalk.org/?topic=1756.0
+Comment: Site: https://merdecointalk.org/?topic=1756.0
 
 Files: src/qt/res/icons/proxy.png
        src/qt/res/src/proxy.svg

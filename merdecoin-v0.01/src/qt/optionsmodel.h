@@ -45,7 +45,7 @@ public:
         ProxyUseTor,            // bool
         ProxyIPTor,             // QString
         ProxyPortTor,           // int
-        DisplayUnit,            // BitcoinUnits::Unit
+        DisplayUnit,            // MerdecoinUnits::Unit
         ThirdPartyTxUrls,       // QString
         Language,               // QString
         CoinControlFeatures,    // bool

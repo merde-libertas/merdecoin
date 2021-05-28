@@ -50,10 +50,10 @@ namespace GUIUtil
     // Set up widget for address
     void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent);
 
-    // Parse "bitcoin:" URI into recipient object, return true on successful parsing
-    bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out);
-    bool parseBitcoinURI(QString uri, SendCoinsRecipient *out);
-    QString formatBitcoinURI(const SendCoinsRecipient &info);
+    // Parse "merdecoin:" URI into recipient object, return true on successful parsing
+    bool parseMerdecoinURI(const QUrl &uri, SendCoinsRecipient *out);
+    bool parseMerdecoinURI(QString uri, SendCoinsRecipient *out);
+    QString formatMerdecoinURI(const SendCoinsRecipient &info);
 
     // Returns true if given address+amount meets "dust" definition
     bool isDust(interfaces::Node& node, const QString& address, const CAmount& amount);
@@ -123,7 +123,7 @@ namespace GUIUtil
     void openDebugLogfile();
 
     // Open the config file
-    bool openBitcoinConf();
+    bool openMerdecoinConf();
 
     /** Qt event filter that intercepts ToolTipChange events, and replaces the tooltip with a rich text
       representation if needed. This assures that Qt can word-wrap long tooltip messages.

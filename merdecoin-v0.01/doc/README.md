@@ -1,11 +1,11 @@
-Bitcoin Core
+Merdecoin Core
 =============
 
 Setup
 ---------------------
-Bitcoin Core is the original Merdecoin client and it builds the backbone of the network. It downloads and, by default, stores the entire history of Merdecoin transactions, which requires a few hundred gigabytes of disk space. Depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more.
+Merdecoin Core is the original Merdecoin client and it builds the backbone of the network. It downloads and, by default, stores the entire history of Merdecoin transactions, which requires a few hundred gigabytes of disk space. Depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more.
 
-To download Merdecoin Core, visit [bitcoincore.org](https://bitcoincore.org/en/download/).
+To download Merdecoin Core, visit [merdecoincore.org](https://merdecoincore.org/en/download/).
 
 Running
 ---------------------
@@ -15,12 +15,12 @@ The following are some helpful notes on how to run Merdecoin Core on your native
 
 Unpack the files into a directory and run:
 
-- `bin/bitcoin-qt` (GUI) or
-- `bin/bitcoind` (headless)
+- `bin/merdecoin-qt` (GUI) or
+- `bin/merdecoind` (headless)
 
 ### Windows
 
-Unpack the files into a directory, and then run bitcoin-qt.exe.
+Unpack the files into a directory, and then run merdecoin-qt.exe.
 
 ### macOS
 
@@ -28,10 +28,10 @@ Drag Merdecoin Core to your applications folder, and then run Merdecoin Core.
 
 ### Need Help?
 
-* See the documentation at the [Bitcoin Wiki](https://en.bitcoin.it/wiki/Main_Page)
+* See the documentation at the [Merdecoin Wiki](https://en.merdecoin.it/wiki/Main_Page)
 for help and more information.
-* Ask for help on [#bitcoin](http://webchat.freenode.net?channels=bitcoin) on Freenode. If you don't have an IRC client, use [webchat here](http://webchat.freenode.net?channels=bitcoin).
-* Ask for help on the [BitcoinTalk](https://bitcointalk.org/) forums, in the [Technical Support board](https://bitcointalk.org/index.php?board=4.0).
+* Ask for help on [#merdecoin](http://webchat.freenode.net?channels=merdecoin) on Freenode. If you don't have an IRC client, use [webchat here](http://webchat.freenode.net?channels=merdecoin).
+* Ask for help on the [MerdecoinTalk](https://merdecointalk.org/) forums, in the [Technical Support board](https://merdecointalk.org/index.php?board=4.0).
 
 Building
 ---------------------
@@ -44,7 +44,7 @@ The following are developer notes on how to build Merdecoin Core on your native 
 - [FreeBSD Build Notes](build-freebsd.md)
 - [OpenBSD Build Notes](build-openbsd.md)
 - [NetBSD Build Notes](build-netbsd.md)
-- [Gitian Building Guide (External Link)](https://github.com/bitcoin-core/docs/blob/master/gitian-building.md)
+- [Gitian Building Guide (External Link)](https://github.com/merdecoin-core/docs/blob/master/gitian-building.md)
 
 Development
 ---------------------
@@ -54,7 +54,7 @@ The Merdecoin repo's [root README](/README.md) contains relevant information on 
 - [Productivity Notes](productivity.md)
 - [Release Notes](release-notes.md)
 - [Release Process](release-process.md)
-- [Source Code Documentation (External Link)](https://dev.visucore.com/bitcoin/doxygen/)
+- [Source Code Documentation (External Link)](https://dev.visucore.com/merdecoin/doxygen/)
 - [Translation Process](translation_process.md)
 - [Translation Strings Policy](translation_strings_policy.md)
 - [JSON-RPC Interface](JSON-RPC-interface.md)
@@ -65,13 +65,13 @@ The Merdecoin repo's [root README](/README.md) contains relevant information on 
 - [Benchmarking](benchmarking.md)
 
 ### Resources
-* Discuss on the [BitcoinTalk](https://bitcointalk.org/) forums, in the [Development & Technical Discussion board](https://bitcointalk.org/index.php?board=6.0).
-* Discuss project-specific development on #bitcoin-core-dev on Freenode. If you don't have an IRC client, use [webchat here](http://webchat.freenode.net/?channels=bitcoin-core-dev).
-* Discuss general Merdecoin development on #bitcoin-dev on Freenode. If you don't have an IRC client, use [webchat here](http://webchat.freenode.net/?channels=bitcoin-dev).
+* Discuss on the [MerdecoinTalk](https://merdecointalk.org/) forums, in the [Development & Technical Discussion board](https://merdecointalk.org/index.php?board=6.0).
+* Discuss project-specific development on #merdecoin-core-dev on Freenode. If you don't have an IRC client, use [webchat here](http://webchat.freenode.net/?channels=merdecoin-core-dev).
+* Discuss general Merdecoin development on #merdecoin-dev on Freenode. If you don't have an IRC client, use [webchat here](http://webchat.freenode.net/?channels=merdecoin-dev).
 
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)
-- [bitcoin.conf Configuration File](bitcoin-conf.md)
+- [merdecoin.conf Configuration File](merdecoin-conf.md)
 - [Files](files.md)
 - [Fuzz-testing](fuzzing.md)
 - [Reduce Traffic](reduce-traffic.md)

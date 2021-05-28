@@ -10,7 +10,7 @@
 #include <vector>
 
 /**
- * CBaseChainParams defines the base parameters (shared between bitcoin-cli and bitcoind)
+ * CBaseChainParams defines the base parameters (shared between merdecoin-cli and merdecoind)
  * of a given instance of the Merdecoin system.
  */
 class CBaseChainParams

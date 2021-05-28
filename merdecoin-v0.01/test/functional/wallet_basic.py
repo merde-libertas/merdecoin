@@ -6,7 +6,7 @@
 from decimal import Decimal
 import time
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import MerdecoinTestFramework
 from test_framework.util import (
     assert_array_result,
     assert_equal,
@@ -19,7 +19,7 @@ from test_framework.util import (
 )
 
 
-class WalletTest(BitcoinTestFramework):
+class WalletTest(MerdecoinTestFramework):
     def set_test_params(self):
         self.num_nodes = 4
         self.setup_clean_chain = True
@@ -413,7 +413,7 @@ class WalletTest(BitcoinTestFramework):
             '-reindex',
             '-zapwallettxes=1',
             '-zapwallettxes=2',
-            # disabled until issue is fixed: https://github.com/bitcoin/bitcoin/issues/7463
+            # disabled until issue is fixed: https://github.com/merdecoin/merdecoin/issues/7463
             # '-salvagewallet',
         ]
         chainlimit = 6

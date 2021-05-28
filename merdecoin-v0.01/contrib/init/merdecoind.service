@@ -1,0 +1,68 @@
+# It is not recommended to modify this file in-place, because it will
+# be overwritten during package upgrades. If you want to add further
+# options or overwrite existing ones then use
+# $ systemctl edit merdecoind.service
+# See "man systemd.service" for details.
+
+# Note that almost all daemon options could be specified in
+# /etc/merdecoin/merdecoin.conf, except for those explicitly specified as arguments
+# in ExecStart=
+
+[Unit]
+Description=Merdecoin daemon
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/merdecoind -daemon \
+                            -pid=/run/merdecoind/merdecoind.pid \
+                            -conf=/etc/merdecoin/merdecoin.conf \
+                            -datadir=/var/lib/merdecoind
+
+# Process management
+####################
+
+Type=forking
+PIDFile=/run/merdecoind/merdecoind.pid
+Restart=on-failure
+
+# Directory creation and permissions
+####################################
+
+# Run as merdecoin:merdecoin
+User=merdecoin
+Group=merdecoin
+
+# /run/merdecoind
+RuntimeDirectory=merdecoind
+RuntimeDirectoryMode=0710
+
+# /etc/merdecoin
+ConfigurationDirectory=merdecoin
+ConfigurationDirectoryMode=0710
+
+# /var/lib/merdecoind
+StateDirectory=merdecoind
+StateDirectoryMode=0710
+
+# Hardening measures
+####################
+
+# Provide a private /tmp and /var/tmp.
+PrivateTmp=true
+
+# Mount /usr, /boot/ and /etc read-only for the process.
+ProtectSystem=full
+
+# Disallow the process and all of its children to gain
+# new privileges through execve().
+NoNewPrivileges=true
+
+# Use a new /dev namespace only populated with API pseudo devices
+# such as /dev/null, /dev/zero and /dev/random.
+PrivateDevices=true
+
+# Deny the creation of writable and executable memory mappings.
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=multi-user.target

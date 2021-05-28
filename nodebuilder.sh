@@ -17,7 +17,7 @@ cd ../..
 cd bitcoin
 git checkout v0.18.0
 ./autogen.sh
-./configure CPPFLAGS="-I${BDB_PREFIX}/include/ -O2" LDFLAGS="-L${BDB_PREFIX}/lib/" --with-gui
+./configure CPPFLAGS="-I${BDB_PREFIX}/include/ -O2" LDFLAGS="-L${BDB_PREFIX}/lib/" --with-gui --with-incompatible-bdb
 make
 # Now we have a working copy of the bitcoun client we can modify it to work on our own network
 find . -type f -exec sed -i 's/Bitcoin/Merdecoin/g' {} +

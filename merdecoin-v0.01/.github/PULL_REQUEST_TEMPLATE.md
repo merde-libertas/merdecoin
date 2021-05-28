@@ -2,7 +2,7 @@ Pull requests without a rationale and clear improvement may be closed
 immediately.
 
 Please provide clear motivation for your patch and explain how it improves
-Bitcoin Core user experience or Merdecoin Core developer experience
+Merdecoin Core user experience or Merdecoin Core developer experience
 significantly.
 
 * Any test improvements or new tests that improve coverage are always welcome.
@@ -25,7 +25,7 @@ significantly.
   preferred in the [developer notes](/doc/developer-notes.md), stylistic code
   changes are usually rejected.
 
-Bitcoin Core has a thorough review process and even the most trivial change
+Merdecoin Core has a thorough review process and even the most trivial change
 needs to pass a lot of eyes and requires non-zero or even substantial time
 effort to review. There is a huge lack of active reviewers on the project, so
 patches often sit for a long time.

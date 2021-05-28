@@ -15,24 +15,24 @@ merging pull requests as well as a "lead maintainer" who is responsible for the
 release cycle, overall merging, moderation and appointment of maintainers.
 
 If you're looking for somewhere to start contributing, check out the
-[good first issue](https://github.com/bitcoin/bitcoin/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
+[good first issue](https://github.com/merdecoin/merdecoin/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)
 list.
 
 Communication Channels
 ----------------------
 
 Most communication about Merdecoin Core development happens on IRC, in the
-#bitcoin-core-dev channel on Freenode. The easiest way to participate on IRC is
+#merdecoin-core-dev channel on Freenode. The easiest way to participate on IRC is
 with the web client, [webchat.freenode.net](https://webchat.freenode.net/). Chat
 history logs can be found
-on [http://www.erisian.com.au/bitcoin-core-dev/](http://www.erisian.com.au/bitcoin-core-dev/)
-and [http://gnusha.org/bitcoin-core-dev/](http://gnusha.org/bitcoin-core-dev/).
+on [http://www.erisian.com.au/merdecoin-core-dev/](http://www.erisian.com.au/merdecoin-core-dev/)
+and [http://gnusha.org/merdecoin-core-dev/](http://gnusha.org/merdecoin-core-dev/).
 
 Discussion about code base improvements happens in GitHub issues and on pull
 requests.
 
 The developer
-[mailing list](https://lists.linuxfoundation.org/mailman/listinfo/bitcoin-dev)
+[mailing list](https://lists.linuxfoundation.org/mailman/listinfo/merdecoin-dev)
 should be used to discuss complicated or controversial changes before working on
 a patch set.
 
@@ -81,12 +81,12 @@ the pull request affects. Valid areas as:
 
   - *Consensus* for changes to consensus critical code
   - *Docs* for changes to the documentation
-  - *Qt* for changes to bitcoin-qt
+  - *Qt* for changes to merdecoin-qt
   - *Mining* for changes to the mining code
   - *Net* or *P2P* for changes to the peer-to-peer network code
   - *RPC/REST/ZMQ* for changes to the RPC, REST or ZMQ APIs
   - *Scripts and tools* for changes to the scripts and tools
-  - *Tests* for changes to the bitcoin unit tests or QA tests
+  - *Tests* for changes to the merdecoin unit tests or QA tests
   - *Trivial* should **only** be used for PRs that do not change generated
     executable code. Notably, refactors (change of function arguments and code
     reorganization) and changes in behavior should **not** be marked as trivial.
@@ -106,7 +106,7 @@ Examples:
     Trivial: Fix typo in init.cpp
 
 Note that translations should not be submitted as pull requests, please see
-[Translation Process](https://github.com/bitcoin/bitcoin/blob/master/doc/translation_process.md) 
+[Translation Process](https://github.com/merdecoin/merdecoin/blob/master/doc/translation_process.md) 
 for more information on helping with translations.
 
 If a pull request is not to be considered for merging (yet), please
@@ -200,7 +200,7 @@ workload on reviewing.
 -------------------------
 
 The following applies to code changes to the Merdecoin Core project (and related
-projects such as libsecp256k1), and is not to be confused with overall Bitcoin
+projects such as libsecp256k1), and is not to be confused with overall Merdecoin
 Network Protocol consensus changes.
 
 Whether a pull request is merged into Merdecoin Core rests with the project merge
