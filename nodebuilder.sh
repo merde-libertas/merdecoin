@@ -21,4 +21,8 @@ git checkout v0.18.0
 make
 # Now we have a working copy of the bitcoun client we can modify it to work on our own network
 find . -type f -exec sed -i 's/Bitcoin/Merdecoin/g' {} +
+find . -type f -exec sed -i 's/bitcoin/merdecoin/g' {} +
+find . -type f -exec rename 's/Bitcoin/Merdecoin/g' {} +
+find . -type f -exec rename 's/bitcoin/merdecoin/g' {} +
+
 find . -type f -exec sed -i 's/BTC/MRD/g' {} +
