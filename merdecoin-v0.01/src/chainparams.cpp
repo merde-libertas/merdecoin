@@ -11,12 +11,51 @@
 #include <util/system.h>
 #include <util/strencodings.h>
 #include <versionbitsinfo.h>
-
+#include <arith_uint256.h>
 #include <assert.h>
 
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/split.hpp>
+const arith_uint256 maxUint = UintToArith256(
+        uint256S("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"));
 
+static void MineGenesis(CBlockHeader &genesisBlock, const uint256 &powLimit, bool noProduction) {
+    if (noProduction) genesisBlock.nTime = std::time(0);
+    genesisBlock.nNonce = 0;
+
+    printf("NOTE: Genesis nTime = %u \n", genesisBlock.nTime);
+    printf("WARN: Genesis nNonce (BLANK!) = %u \n", genesisBlock.nNonce);
+
+    arith_uint256 besthash;
+    memset(&besthash, 0xFF, 32);
+    arith_uint256 hashTarget = UintToArith256(powLimit);
+    printf("Target: %s\n", hashTarget.GetHex().c_str());
+    arith_uint256 newhash = UintToArith256(genesisBlock.GetHash());
+    while (newhash > hashTarget) {
+        genesisBlock.nNonce++;
+        if (genesisBlock.nNonce == 0) {
+            printf("NONCE WRAPPED, incrementing time\n");
+            ++genesisBlock.nTime;
+        }
+        // If nothing found after trying for a while, print status
+        if ((genesisBlock.nNonce & 0xffff) == 0)
+            printf("nonce %08X: hash = %s \r",
+                   genesisBlock.nNonce, newhash.ToString().c_str(),
+                   hashTarget.ToString().c_str());
+
+        if (newhash < besthash) {
+            besthash = newhash;
+            printf("New best: %s\n", newhash.GetHex().c_str());
+        }
+        newhash = UintToArith256(genesisBlock.GetHash());
+    }
+    printf("\nGenesis nTime = %u \n", genesisBlock.nTime);
+    printf("Genesis nNonce = %u \n", genesisBlock.nNonce);
+    printf("Genesis nBits: %08x\n", genesisBlock.nBits);
+    printf("Genesis Hash = %s\n", newhash.ToString().c_str());
+    printf("Genesis Hash Merkle Root = %s\n", genesisBlock.hashMerkleRoot.ToString().c_str());
+    printf("Genesis Hash Merkle Root = %s\n", genesisBlock.hashMerkleRoot.ToString().c_str());
+}
 static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
     CMutableTransaction txNew;
@@ -110,17 +149,19 @@ public:
         m_assumed_blockchain_size = 1;
         m_assumed_chain_state_size = 3;
 
-        genesis = CreateGenesisBlock(1621453120, 3635966655, 0x1d00ffff, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1622408317, 694579960, 0x1d00ffff, 1, 50 * COIN);
+        //MineGenesis(genesis, consensus.powLimit, true);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("00000000748762f19c0517b32cd5e9169c01b8026d026ff55e37ab47b52a0007"));
+        assert(consensus.hashGenesisBlock == uint256S("0000000007a98fd7463373d14c0ca5f0bf7fb1c085adb14319b6742bf05a4fc60"));
         assert(genesis.hashMerkleRoot == uint256S("69441196865b6d812f7cf0dd71f284eb4081f867b0881c02f67a036ab8eaeda4"));
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Need to put the adress of at least 2 servers in here
-        vSeeds.emplace_back("86.175.33.73"); 
+        vSeeds.emplace_back("merdecoin.ddns.net"); 
         vSeeds.emplace_back("34.136.233.8"); 
+        vSeeds.emplace_back("81.155.165.179");
 
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,3);
@@ -180,7 +221,7 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_SEGWIT].nTimeout = 1493596800; // May 1st 2017
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x00000000000000000000000000000000000000000000007dbe94253893cbd463");
+        consensus.nMinimumChainWork = uint256S("0000000000000000000000000000000000000000000000000000000100010001");
 
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x0000000000000037a8cd3e06cd5edbfe9dd1dbcc5dacab279376ef7cfc2b4c75"); //1354312
@@ -194,10 +235,12 @@ public:
         m_assumed_blockchain_size = 1;
         m_assumed_chain_state_size = 1;
 
-        genesis = CreateGenesisBlock(1621453120, 3635966655, 0x1d00ffff, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1622408317, 694579960, 0x1d00ffff, 1, 50 * COIN);
+        //MineGenesis(genesis, consensus.powLimit, true);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("00000000748762f19c0517b32cd5e9169c01b8026d026ff55e37ab47b52a0007"));
+        assert(consensus.hashGenesisBlock == uint256S("0000000007a98fd7463373d14c0ca5f0bf7fb1c085adb14319b6742bf05a4fc60"));
         assert(genesis.hashMerkleRoot == uint256S("69441196865b6d812f7cf0dd71f284eb4081f867b0881c02f67a036ab8eaeda4"));
+
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -277,9 +320,10 @@ public:
 
         UpdateVersionBitsParametersFromArgs(args);
 
-        genesis = CreateGenesisBlock(1621453120, 3635966655, 0x1d00ffff, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1622408317, 694579960, 0x1d00ffff, 1, 50 * COIN);
+        //MineGenesis(genesis, consensus.powLimit, true);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("00000000748762f19c0517b32cd5e9169c01b8026d026ff55e37ab47b52a0007"));
+        assert(consensus.hashGenesisBlock == uint256S("0000000007a98fd7463373d14c0ca5f0bf7fb1c085adb14319b6742bf05a4fc60"));
         assert(genesis.hashMerkleRoot == uint256S("69441196865b6d812f7cf0dd71f284eb4081f867b0881c02f67a036ab8eaeda4"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
