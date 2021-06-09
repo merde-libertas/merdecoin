@@ -1159,16 +1159,12 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
         return 0;
 
     CAmount nSubsidy;
-    if (nHeight <= 10)  {
-        nSubsidy = 50 * COIN;
+    if (nHeight == 5)  {
+        nSubsidy = 5000000 * COIN;
     } else {
-        if (nHeight > 10)  {
-            if (nHeight == 15)  {
-                nSubsidy = 5000000 * COIN;
-            } else {
-                nSubsidy = 100 * COIN;
-            }
-        }
+        
+        nSubsidy = 100 * COIN;
+
     }
     // Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.
     nSubsidy >>= halvings;
@@ -3170,8 +3166,8 @@ bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::P
 
 bool IsWitnessEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& params)
 {
-////////////////////////////////////////////////////////////////////
-    return true;
+//////////////////////////////////////////////////////////////////////
+    //return true;
     /////////////////////////////////////////////////////////
     LOCK(cs_main);
     return (VersionBitsState(pindexPrev, params, Consensus::DEPLOYMENT_SEGWIT, versionbitscache) == ThresholdState::ACTIVE);
@@ -3180,7 +3176,7 @@ bool IsWitnessEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& pa
 bool IsNullDummyEnabled(const CBlockIndex* pindexPrev, const Consensus::Params& params)
 {
 ////////////////////////////////////////////////////////////////////
-    return true;
+    //return true;
     /////////////////////////////////////////////////////////
     LOCK(cs_main);
     return (VersionBitsState(pindexPrev, params, Consensus::DEPLOYMENT_SEGWIT, versionbitscache) == ThresholdState::ACTIVE);
@@ -3360,7 +3356,7 @@ static bool ContextualCheckBlock(const CBlock& block, CValidationState& state, c
     if (!fHaveWitness) {
       for (const auto& tx : block.vtx) {
             if (tx->HasWitness()) {
-                //return state.DoS(100, false, REJECT_INVALID, "unexpected-witness", true, strprintf("%s : unexpected witness data found", __func__));
+                return state.DoS(100, false, REJECT_INVALID, "unexpected-witness", true, strprintf("%s : unexpected witness data found", __func__));
             }
         }
     }
